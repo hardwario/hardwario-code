@@ -25,7 +25,7 @@ jobs:
           latest: true
           fileName: "*.vsix"
         
-      - run: ls .
+      - run: mv *.vsix hardwario-tower.vsix
         
       - name: Download Visual Studio Code and data folder
         run: |
