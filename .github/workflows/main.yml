@@ -27,8 +27,8 @@ jobs:
       - name: Unzip all downloaded files
         run: | 
           mkdir hardwario-code
-          7z x hardwario-code-windows.zip -ohardwario-code/ -r 
-          7z x data.zip -ohardwario-code-test/ -r
+          7z x hardwario-code-windows.zip -r 
+          7z x data.zip -ohardwario-code/ -r
 
       - run: ls .
       - run: ls hardwario-code/
