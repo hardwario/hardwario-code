@@ -32,23 +32,24 @@ jobs:
 
       - run: ls .
       - run: ls hardwario-code/
+      - run: ls hardwario-code/bin/
 
 
       - name: Install all extensions
         run: |
-          code.cmd --install-extension cschlosser.doxdocgen
-          code.cmd --install-extension jeff-hykin.better-cpp-syntax
-          code.cmd --install-extension marus25.cortex-debug
-          code.cmd --install-extension ms-vscode.cmake-tools
-          code.cmd --install-extension ms-vscode.cpptools
-          code.cmd --install-extension ms-vscode.cpptools-extension-pack
-          code.cmd --install-extension ms-vscode.cpptools-themes
-          code.cmd --install-extension ms-vscode.vscode-serial-monitor
-          code.cmd --install-extension ms-vscode-remote.remote-containers
-          code.cmd --install-extension ms-vscode-remote.remote-ssh
-          code.cmd --install-extension ms-vscode-remote.remote-ssh-edit
-          code.cmd --install-extension ms-vscode-remote.remote-wsl
-          code.cmd --install-extension twxs.cmake
+          call hardwario-code/bin/code.cmd --install-extension cschlosser.doxdocgen
+          call hardwario-code/bin/code.cmd --install-extension jeff-hykin.better-cpp-syntax
+          call hardwario-code/bin/code.cmd --install-extension marus25.cortex-debug
+          call hardwario-code/bin/code.cmd --install-extension ms-vscode.cmake-tools
+          call hardwario-code/bin/code.cmd --install-extension ms-vscode.cpptools
+          call hardwario-code/bin/code.cmd --install-extension ms-vscode.cpptools-extension-pack
+          call hardwario-code/bin/code.cmd --install-extension ms-vscode.cpptools-themes
+          call hardwario-code/bin/code.cmd --install-extension ms-vscode.vscode-serial-monitor
+          call hardwario-code/bin/code.cmd --install-extension ms-vscode-remote.remote-containers
+          call hardwario-code/bin/code.cmd --install-extension ms-vscode-remote.remote-ssh
+          call hardwario-code/bin/code.cmd --install-extension ms-vscode-remote.remote-ssh-edit
+          call hardwario-code/bin/code.cmd --install-extension ms-vscode-remote.remote-wsl
+          call hardwario-code/bin/code.cmd --install-extension twxs.cmake
         working-directory: hardwario-code/bin/
 
 
