@@ -29,14 +29,13 @@ jobs:
         
       - name: Download Visual Studio Code and data folder
         run: |
-          gdown 1wnhEV1-WMqTPLR6bdHLiGjNptOEANV31
-          gdown 1gxQbt5tgI77L6ugHXLpj6xZ76VyQ-X1n
+          gdown --folder 1XnymViTKGAubvZs3_yKOnC2SSQivujBh
       
       - name: Unzip all downloaded files
         run: | 
           mkdir hardwario-code
-          7z x hardwario-code-windows.zip -r 
-          7z x data.zip -ohardwario-code/ -r
+          7z x Windows/hardwario-code-windows.zip -r 
+          7z x Windows/data.zip -ohardwario-code/ -r
 
       - name: Install all extensions
         shell: cmd
