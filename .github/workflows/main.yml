@@ -94,14 +94,11 @@ jobs:
                 
       - name: Unzip all downloaded files
         run: | 
-          mkdir hardwario-code
           tar -xvzf Linux/hardwario-code-linux.tar.gz 
-          ls .
-          ls Linux/
-          unzip Linux/data.zip -ohardwario-code/
-          chmod o+rwx foldername
+          mv VSCode-linux-x64 hardwario-code
+          unzip Linux/data.zip -d hardwario-code/
+          chmod o+rwx hardwario
           chmod +rwx hardwario-code/code
-          ls .
 
       - name: Install all extensions
         run: |
