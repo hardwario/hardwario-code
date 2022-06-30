@@ -17,6 +17,7 @@ jobs:
         with:
           python-version: '3.9'
           cache: 'pip'
+      - run: pip install gdown
 
       #- name: Download Visual Studio Code Windows
       #  run: wget -O hardwario-code-windows.zip --no-check-certificate https://az764295.vo.msecnd.net/stable/30d9c6cd9483b2cc586687151bcbcd635f373630/VSCode-win32-x64-1.68.1.zip
