@@ -18,7 +18,8 @@ jobs:
           cache: 'pip'
       - run: pip install gdown
 
-      - uses: robinraju/release-downloader@v1.4
+      - name: Get latest HARDWARIO Tower VSCode Extension 
+        uses: robinraju/release-downloader@v1.4
         with:
           repository: "hardwario/hardwario-tower-vscode-extension"
           latest: true
@@ -36,10 +37,6 @@ jobs:
           mkdir hardwario-code
           7z x hardwario-code-windows.zip -r 
           7z x data.zip -ohardwario-code/ -r
-
-      - run: ls .
-      - run: ls hardwario-code/
-      - run: ls hardwario-code/bin/
 
       - name: Install all extensions
         shell: cmd
@@ -59,12 +56,15 @@ jobs:
           call hardwario-code/bin/code.cmd --install-extension twxs.cmake
           call hardwario-code/bin/code.cmd --install-extension hardwario-tower.vsix
 
+      - name: Set helper variables
+        run: echo "GITHUB_TAG=${GITHUB_REF#refs/*/v}" | tee -a $GITHUB_ENV
+
       - name: Zip the final product
-        run: 7z a -tzip hardwario-code-windows hardwario-code/*
+        run: 7z a -tzip hardwario-code-windows-${{ env.GITHUB_TAG }} hardwario-code/*
 
       - name: Publish the extension;
         uses: softprops/action-gh-release@v0.1.5
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          files: hardwario-code-windows.zip
+          files: hardwario-code-windows-${{ env.GITHUB_TAG }}.zip
