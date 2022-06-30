@@ -4,6 +4,8 @@ name: main
 on:
   release:
     types: [published]
+  push:
+    branch: [main]
 
 jobs:
   #windows-export:
