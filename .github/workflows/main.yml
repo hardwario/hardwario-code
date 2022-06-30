@@ -97,7 +97,7 @@ jobs:
           tar -xvzf Linux/hardwario-code-linux.tar.gz 
           mv VSCode-linux-x64 hardwario-code
           unzip Linux/data.zip -d hardwario-code/
-          chmod o+rwx hardwario
+          chmod o+rwx hardwario-code
           chmod +rwx hardwario-code/code
 
       - name: Install all extensions
