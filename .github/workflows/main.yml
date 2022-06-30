@@ -36,6 +36,7 @@ jobs:
 
 
       - name: Install all extensions
+        shell: cmd
         run: |
           call hardwario-code/bin/code.cmd --install-extension cschlosser.doxdocgen
           call hardwario-code/bin/code.cmd --install-extension jeff-hykin.better-cpp-syntax
