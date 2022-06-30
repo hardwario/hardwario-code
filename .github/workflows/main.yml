@@ -94,6 +94,8 @@ jobs:
         run: | 
           mkdir hardwario-code
           tar -xvzf Linux/hardwario-code-linux.tar.gz 
+          ls .
+          ls Linux/
           unzip Linux/data.zip -ohardwario-code/
           chmod o+rwx foldername
           chmod +rwx hardwario-code/code
