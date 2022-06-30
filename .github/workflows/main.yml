@@ -19,12 +19,11 @@ jobs:
           cache: 'pip'
       - run: pip install gdown
 
-      - uses: dsaltares/fetch-gh-release-asset@master
+      - uses: robinraju/release-downloader@v1.4
         with:
-          repo: 'hardwario/hardwario-tower-vscode-extension'
-          regex: true
-          file: "hardwario-tower-.*\\.vsix"
-          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: "hardwario/hardwario-tower-vscode-extension"
+          latest: true
+          fileName: "*.vsix"
         
       - run: ls .
         
