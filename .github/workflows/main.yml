@@ -19,6 +19,11 @@ jobs:
           cache: 'pip'
       - run: pip install gdown
 
+      uses: dsaltares/fetch-gh-release-asset@master
+      with:
+        repo: 'hardwario/hardwario-tower-vscode-extension'
+        file: 'hardwario-tower.vsix'
+        
       - name: Download Visual Studio Code and data folder
         run: |
           gdown 1wnhEV1-WMqTPLR6bdHLiGjNptOEANV31
@@ -33,7 +38,6 @@ jobs:
       - run: ls .
       - run: ls hardwario-code/
       - run: ls hardwario-code/bin/
-
 
       - name: Install all extensions
         shell: cmd
@@ -51,4 +55,14 @@ jobs:
           call hardwario-code/bin/code.cmd --install-extension ms-vscode-remote.remote-ssh-edit
           call hardwario-code/bin/code.cmd --install-extension ms-vscode-remote.remote-wsl
           call hardwario-code/bin/code.cmd --install-extension twxs.cmake
+          call hardwario-code/bin/code.cmd --install-extension hardwario-tower.vsix
 
+      - name: Zip the final product
+        run: 7z a -tzip hardwario-code-windows hardwario-code/*
+
+      - name: Publish the extension;
+        uses: softprops/action-gh-release@v0.1.5
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          files: hardwario-code-windows.zip
