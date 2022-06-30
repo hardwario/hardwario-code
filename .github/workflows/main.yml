@@ -18,13 +18,14 @@ jobs:
 
       - name: Create hardwario-code folder
         run: |
-          mkdir hardwario-code
-          unzip hardwario-code-windows.zip -d hardwario-code
+          mkdir artifact-windows
+          mkdir artifact-windows/hardwario-code
+          unzip hardwario-code-windows.zip -d artifact-windows/hardwario-code
 
       - uses: actions/upload-artifact@v2
         with:
           name: hardwario-code-windows
-          path: ./hardwario-code
+          path: ./artifact-windows
   
   windows-export:
     name: Export HARDWARIO Code Windows
@@ -38,3 +39,23 @@ jobs:
           name: hardwario-code-windows
       - run: ls .
       - run: ls hardwario-code/
+
+      - name: Install all extensions
+        run: |
+          mkdir hardwario-code/data
+          cd hardwario-code/bin
+          code --install-extension cschlosser.doxdocgen
+          code --install-extension jeff-hykin.better-cpp-syntax
+          code --install-extension marus25.cortex-debug
+          code --install-extension ms-vscode.cmake-tools
+          code --install-extension ms-vscode.cpptools
+          code --install-extension ms-vscode.cpptools-extension-pack
+          code --install-extension ms-vscode.cpptools-themes
+          code --install-extension ms-vscode.vscode-serial-monitor
+          code --install-extension ms-vscode-remote.remote-containers
+          code --install-extension ms-vscode-remote.remote-ssh
+          code --install-extension ms-vscode-remote.remote-ssh-edit
+          code --install-extension ms-vscode-remote.remote-wsl
+          code --install-extension twxs.cmake
+
+
