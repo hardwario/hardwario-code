@@ -64,3 +64,64 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           files: hardwario-code-windows.zip
+          
+  linux-export:
+    name: Export HARDWARIO Code Linux
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+      - run: pip install gdown
+
+      - name: Get latest HARDWARIO Tower VSCode Extension 
+        uses: robinraju/release-downloader@v1.4
+        with:
+          repository: "hardwario/hardwario-tower-vscode-extension"
+          latest: true
+          fileName: "*.vsix"
+        
+      - run: mv *.vsix hardwario-tower.vsix
+        
+      - name: Download Visual Studio Code and data folder
+        run: |
+          gdown --folder 1e3RYcO_byAFfxBGk8_H6Mn6VtRCxRSWN
+                
+      - name: Unzip all downloaded files
+        run: | 
+          mkdir hardwario-code
+          chmod o+rwx foldername
+          chmod +rwx hardwario-code/code
+          tar –xvzf Linux/hardwario-code-linux.tar.gz 
+          unzip Linux/data.zip -ohardwario-code/
+          ls .
+
+      - name: Install all extensions
+        run: |
+          ./hardwario-code/bin/code --install-extension cschlosser.doxdocgen
+          ./hardwario-code/bin/code --install-extension jeff-hykin.better-cpp-syntax
+          ./hardwario-code/bin/code --install-extension marus25.cortex-debug
+          ./hardwario-code/bin/code --install-extension ms-vscode.cmake-tools
+          ./hardwario-code/bin/code --install-extension ms-vscode.cpptools
+          ./hardwario-code/bin/code --install-extension ms-vscode.cpptools-extension-pack
+          ./hardwario-code/bin/code --install-extension ms-vscode.cpptools-themes
+          ./hardwario-code/bin/code --install-extension ms-vscode.vscode-serial-monitor
+          ./hardwario-code/bin/code --install-extension ms-vscode-remote.remote-containers
+          ./hardwario-code/bin/code --install-extension ms-vscode-remote.remote-ssh
+          ./hardwario-code/bin/code --install-extension ms-vscode-remote.remote-ssh-edit
+          ./hardwario-code/bin/code --install-extension ms-vscode-remote.remote-wsl
+          ./hardwario-code/bin/code --install-extension twxs.cmake
+          ./hardwario-code/bin/code --install-extension hardwario-tower.vsix
+
+      - name: Zip the final product
+        run: zip -r hardwario-code-linux.zip hardwario-code/
+
+      - name: Publish the extension;
+        uses: softprops/action-gh-release@v0.1.5
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          files: hardwario-code-linux.zip
