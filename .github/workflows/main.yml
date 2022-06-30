@@ -1,35 +1,40 @@
 
 name: main
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  get-all-needed-files:
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Download Visual Studio Code Windows
+        run: wget -O hardwario-code-windows.zip --no-check-certificate https://az764295.vo.msecnd.net/stable/30d9c6cd9483b2cc586687151bcbcd635f373630/VSCode-win32-x64-1.68.1.zip
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Create hardwario-code folder
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          mkdir hardwario-code
+          unzip hardwario-code-windows.zip -d hardwario-code
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: hardwario-code-windows
+          path: ./hardwario-code
+  
+  windows-export:
+    name: Export HARDWARIO Code Windows
+    runs-on: windows-latest
+    needs: [get-all-needed-files]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v2
+        with:
+          name: hardwario-code-windows
+      - run: ls .
+      - run: ls hardwario-code/
