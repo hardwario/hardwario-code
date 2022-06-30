@@ -13,14 +13,25 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Download Visual Studio Code Windows
-        run: wget -O hardwario-code-windows.zip --no-check-certificate https://az764295.vo.msecnd.net/stable/30d9c6cd9483b2cc586687151bcbcd635f373630/VSCode-win32-x64-1.68.1.zip
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+      - run: pip install gdown
+
+      #- name: Download Visual Studio Code Windows
+      #  run: wget -O hardwario-code-windows.zip --no-check-certificate https://az764295.vo.msecnd.net/stable/30d9c6cd9483b2cc586687151bcbcd635f373630/VSCode-win32-x64-1.68.1.zip
+      - name: Download Visual Studio Code and data folder (Windows)
+        run: |
+          gdown 1wnhEV1-WMqTPLR6bdHLiGjNptOEANV31
+          gdown 1gxQbt5tgI77L6ugHXLpj6xZ76VyQ-X1n
 
       - name: Create hardwario-code folder
         run: |
           mkdir artifact-windows
           mkdir artifact-windows/hardwario-code
           unzip hardwario-code-windows.zip -d artifact-windows/hardwario-code
+          unzip data.zip -d artifact-windows/hardwario-code/
 
       - uses: actions/upload-artifact@v2
         with:
@@ -42,7 +53,6 @@ jobs:
 
       - name: Install all extensions
         run: |
-          mkdir hardwario-code/data
           code.cmd --install-extension cschlosser.doxdocgen
           code.cmd --install-extension jeff-hykin.better-cpp-syntax
           code.cmd --install-extension marus25.cortex-debug
