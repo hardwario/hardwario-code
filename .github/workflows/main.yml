@@ -153,9 +153,9 @@ jobs:
           unzip macOS/hardwario-code-macos.zip
           xattr -dr com.apple.quarantine Visual\ Studio\ Code.app
           mv Visual\ Studio\ Code.app hardwario-code/
-#         unzip Linux/data.zip -d hardwario-code/
           chmod -R 777 hardwario-code/
 
+         #unzip Linux/data.zip -d hardwario-code/
       - name: Install all extensions
         run: |
           ./hardwario-code/code --install-extension cschlosser.doxdocgen
