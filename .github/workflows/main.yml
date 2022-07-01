@@ -63,7 +63,7 @@ jobs:
       - name: Zip the final product
         run: |
           7z a -tzip hardwario-code-windows hardwario-code/*
-          ls .
+          ren hardwario-code-windows.zip hardwario-code-windows-${{env.TAG}}.zip
 
       - name: Publish the extension;
         uses: softprops/action-gh-release@v0.1.5
