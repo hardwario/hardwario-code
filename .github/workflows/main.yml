@@ -57,6 +57,7 @@ jobs:
           call hardwario-code/bin/code.cmd --install-extension hardwario-tower.vsix
 
       - name: Setup env
+        shell: bash
         run: echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
 
       - name: Zip the final product
