@@ -62,7 +62,7 @@ jobs:
 
       - name: Zip the final product
         run: |
-          7z a -tzip hardwario-code-windows-${{env.TAG}} hardwario-code/*
+          7z a -tzip hardwario-code-windows hardwario-code/*
           ls .
 
       - name: Publish the extension;
