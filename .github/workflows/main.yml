@@ -195,6 +195,7 @@ jobs:
         run: | 
           bash hardwario-macos-installer/macOS-x64/build-macos-x64.sh hardwario-code ${{env.TAG}}
           ls hardwario-macos-installer/macOS-x64/target/pkg/
+          mv hardwario-macos-installer/macOS-x64/target/pkg/hardwario-code-macos-installer-x64-${{env.TAG}}.pkg hardwario-code-macos-installer-x64-${{env.TAG}}.pkg
 
       - name: Publish the extension
         uses: softprops/action-gh-release@v0.1.5
