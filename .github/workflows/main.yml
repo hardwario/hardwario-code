@@ -184,11 +184,8 @@ jobs:
 
       - name: Run macOS Installer
         run: | 
-          bash hardwario-macos-installer/macOS-x64/build-macos-x64.sh hardwario-code 0.5.5 
+          bash hardwario-macos-installer/macOS-x64/build-macos-x64.sh hardwario-code v0.5.5 
           ls hardwario-macos-installer/macOS-x64/target/pkg/
-
-      #- name: Zip the final product
-      #  run: zip -r -X hardwario-code-macos.zip hardwario-code/
 
       - name: Publish the extension;
         uses: softprops/action-gh-release@v0.1.5
