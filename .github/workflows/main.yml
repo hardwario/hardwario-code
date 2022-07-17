@@ -260,4 +260,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: hardwario-code-macos
-          path: hardwario-code-macos${{env.TAG}}.pkg
+          path: hardwario-code-macos-${{env.TAG}}.pkg
