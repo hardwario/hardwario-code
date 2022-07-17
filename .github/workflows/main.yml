@@ -13,9 +13,9 @@ jobs:
     needs: windows-export
     runs-on: ubuntu-latest
 
-  steps:
-    - name: Download all workflow run artifacts
-      uses: actions/download-artifact@v3
+    steps:
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v3
 
     - name: Setup env
       run: |
