@@ -8,6 +8,22 @@ env:
   VERSION: ${GITHUB_REF##*/}
 
 jobs:
+  gdrive-upload:
+    name: Upload all exports to Google Drive
+    needs: windows-export
+    runs-on: ubuntu-latest
+
+  steps:
+    - name: Download all workflow run artifacts
+      uses: actions/download-artifact@v3
+
+    - name: Upload to gdrive
+        uses: adityak74/google-drive-upload-git-action@main
+        with:
+          credentials: ${{ secrets.credentials }}
+          filename: "hardwario-code-windows-${{env.TAG}}.zip"
+          folderId: ${{ secrets.folderId }}
+
   windows-export:
     name: Export HARDWARIO Code Windows
     runs-on: windows-latest
@@ -212,17 +228,3 @@ jobs:
   #        GITHUB_TOKEN: ${{ github.token }}
   #      with:
   #        files: hardwario-code-macos-${{env.TAG}}.pkg
-
-  gdrive-upload:
-    name: Upload all exports to Google Drive
-    runs-on: ubuntu-latest
-
-  - name: Download all workflow run artifacts
-    uses: actions/download-artifact@v3
-
-  - name: Upload to gdrive
-      uses: adityak74/google-drive-upload-git-action@main
-      with:
-        credentials: ${{ secrets.credentials }}
-        filename: "hardwario-code-windows-${{env.TAG}}.zip"
-        folderId: ${{ secrets.folderId }}
