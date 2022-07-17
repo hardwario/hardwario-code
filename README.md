@@ -1,6 +1,6 @@
 # HARDWARIO CODE Portable
 
-[![License](https://img.shields.io/github/license/hardwario/hardwario-code.svg)](https://github.com/hardwario/hardwario-code/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/hardwario/hardwario-code.svg)](https://github.com/hardwario/hardwario-code/blob/main/LICENSE)
 [![Twitter](https://img.shields.io/twitter/follow/hardwario_en.svg?style=social&label=Follow)](https://twitter.com/hardwario_en)
 
 This repository serves for releasing the HARDWARIO CODE to [Google drive](https://drive.google.com/drive/u/3/folders/1gC91vzSR0O1RONRX6LMJ8_ug1_UOikpt)
