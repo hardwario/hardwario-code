@@ -213,16 +213,16 @@ jobs:
   #      with:
   #        files: hardwario-code-macos-${{env.TAG}}.pkg
 
-gdrive-upload:
-  name: Upload all exports to Google Drive
-  runs-on: ubuntu-latest
+  gdrive-upload:
+    name: Upload all exports to Google Drive
+    runs-on: ubuntu-latest
 
-- name: Download all workflow run artifacts
-  uses: actions/download-artifact@v3
+  - name: Download all workflow run artifacts
+    uses: actions/download-artifact@v3
 
-- name: Upload to gdrive
-    uses: adityak74/google-drive-upload-git-action@main
-    with:
-      credentials: ${{ secrets.credentials }}
-      filename: "hardwario-code-windows-${{env.TAG}}.zip"
-      folderId: ${{ secrets.folderId }}
+  - name: Upload to gdrive
+      uses: adityak74/google-drive-upload-git-action@main
+      with:
+        credentials: ${{ secrets.credentials }}
+        filename: "hardwario-code-windows-${{env.TAG}}.zip"
+        folderId: ${{ secrets.folderId }}
