@@ -17,12 +17,12 @@ jobs:
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
 
-    - name: Setup env
-      run: |
-        echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
-        mv hardwario-code-windows/* .
+      - name: Setup env
+        run: |
+          echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
+          mv hardwario-code-windows/* .
 
-    - name: Upload to gdrive
+      - name: Upload to gdrive
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.credentials }}
