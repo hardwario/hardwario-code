@@ -5,7 +5,7 @@ on:
     types: [published]
 
 env: 
-  VERSION: ${GITHUB_REF*/}
+  VERSION: ${GITHUB_REF##*/}
 
 jobs:
   gdrive-upload:
