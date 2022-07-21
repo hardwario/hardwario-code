@@ -80,16 +80,9 @@ jobs:
           call hardwario-code/bin/code.cmd --install-extension cschlosser.doxdocgen
           call hardwario-code/bin/code.cmd --install-extension jeff-hykin.better-cpp-syntax
           call hardwario-code/bin/code.cmd --install-extension marus25.cortex-debug
-          call hardwario-code/bin/code.cmd --install-extension ms-vscode.cmake-tools
           call hardwario-code/bin/code.cmd --install-extension ms-vscode.cpptools
-          call hardwario-code/bin/code.cmd --install-extension ms-vscode.cpptools-extension-pack
           call hardwario-code/bin/code.cmd --install-extension ms-vscode.cpptools-themes
           call hardwario-code/bin/code.cmd --install-extension ms-vscode.vscode-serial-monitor
-          call hardwario-code/bin/code.cmd --install-extension ms-vscode-remote.remote-containers
-          call hardwario-code/bin/code.cmd --install-extension ms-vscode-remote.remote-ssh
-          call hardwario-code/bin/code.cmd --install-extension ms-vscode-remote.remote-ssh-edit
-          call hardwario-code/bin/code.cmd --install-extension ms-vscode-remote.remote-wsl
-          call hardwario-code/bin/code.cmd --install-extension twxs.cmake
           call hardwario-code/bin/code.cmd --install-extension hardwario-tower.vsix
 
       - name: Setup env
@@ -152,16 +145,9 @@ jobs:
           ./hardwario-code/bin/code --install-extension cschlosser.doxdocgen
           ./hardwario-code/bin/code --install-extension jeff-hykin.better-cpp-syntax
           ./hardwario-code/bin/code --install-extension marus25.cortex-debug
-          ./hardwario-code/bin/code --install-extension ms-vscode.cmake-tools
           ./hardwario-code/bin/code --install-extension ms-vscode.cpptools
-          ./hardwario-code/bin/code --install-extension ms-vscode.cpptools-extension-pack
           ./hardwario-code/bin/code --install-extension ms-vscode.cpptools-themes
           ./hardwario-code/bin/code --install-extension ms-vscode.vscode-serial-monitor
-          ./hardwario-code/bin/code --install-extension ms-vscode-remote.remote-containers
-          ./hardwario-code/bin/code --install-extension ms-vscode-remote.remote-ssh
-          ./hardwario-code/bin/code --install-extension ms-vscode-remote.remote-ssh-edit
-          ./hardwario-code/bin/code --install-extension ms-vscode-remote.remote-wsl
-          ./hardwario-code/bin/code --install-extension twxs.cmake
           ./hardwario-code/bin/code --install-extension hardwario-tower.vsix
 
       - name: Setup env
@@ -222,16 +208,9 @@ jobs:
           ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension cschlosser.doxdocgen
           ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension jeff-hykin.better-cpp-syntax
           ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension marus25.cortex-debug
-          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.cmake-tools
           ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.cpptools
-          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.cpptools-extension-pack
           ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.cpptools-themes
           ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.vscode-serial-monitor
-          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode-remote.remote-containers
-          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode-remote.remote-ssh
-          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode-remote.remote-ssh-edit
-          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode-remote.remote-wsl
-          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension twxs.cmake
           ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension hardwario-tower.vsix
 
       - name: Prepare macOS Installer
