@@ -60,7 +60,8 @@ jobs:
       - uses: slidoapp/setup-advancedinstaller@v2
         with:
           version: '19.7'
-          advinst-enable-automation: 'true'
+          license: 'freeware'
+          enable-automation: 'true'
 
       - name: Get latest HARDWARIO Tower VSCode Extension 
         uses: robinraju/release-downloader@v1.4
