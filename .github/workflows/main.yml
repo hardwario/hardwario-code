@@ -6,6 +6,7 @@ on:
 
 env: 
   VERSION: ${GITHUB_REF##*/}
+  WINDOWS_INSTALLER_VERSION: ${GITHUB_REF##*/v}
 
 jobs:
   #gdrive-upload:
@@ -92,7 +93,9 @@ jobs:
 
       - name: Setup env
         shell: bash
-        run: echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
+        run: | 
+          echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
+          echo "INSTALLER_TAG=${{env.WINDOWS_INSTALLER_VERSION}}" >> "$GITHUB_ENV"
 
       - name: Create installer
         shell: pwsh
@@ -101,7 +104,7 @@ jobs:
           $project = $advinst.CreateProjectS("freeware")
           $project.ProductDetails.Name = "Visual Studio Code - HARDWARIO Code"
           $project.ProductDetails.Publisher = "HARDWARIO a.s."
-          $project.ProductDetails.Version = "${{env.TAG}}"
+          $project.ProductDetails.Version = "${{env.INSTALLER_TAG}}"
           $project.ProductDetails
           $project.FilesComponent.AddFolderContentS("appdir", "\hardwario-code")
           $codeExe = $project.FilesComponent.FindFileByPath("appdir\Code.exe")
