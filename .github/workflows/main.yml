@@ -8,42 +8,42 @@ env:
   VERSION: ${GITHUB_REF##*/}
 
 jobs:
-  gdrive-upload:
-    name: Upload all exports to Google Drive
-    needs: [windows-export, linux-export, macos-export]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download all workflow run artifacts
-        uses: actions/download-artifact@v3
-
-      - name: Setup env
-        run: |
-          echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
-          mv hardwario-code-windows/* .
-          mv hardwario-code-linux/* .
-          mv hardwario-code-macos/* .
-
-      - name: Upload to gdrive Windows
-        uses: adityak74/google-drive-upload-git-action@main
-        with:
-          credentials: ${{ secrets.credentials }}
-          filename: "hardwario-code-windows-${{env.TAG}}.zip"
-          folderId: ${{ secrets.folderId }}
-      
-      - name: Upload to gdrive Linux
-        uses: adityak74/google-drive-upload-git-action@main
-        with:
-          credentials: ${{ secrets.credentials }}
-          filename: "hardwario-code-linux-${{env.TAG}}.tar.gz"
-          folderId: ${{ secrets.folderId }}
-
-      - name: Upload to gdrive macOS
-        uses: adityak74/google-drive-upload-git-action@main
-        with:
-          credentials: ${{ secrets.credentials }}
-          filename: "hardwario-code-macos-${{env.TAG}}.pkg"
-          folderId: ${{ secrets.folderId }}
+  #gdrive-upload:
+  #  name: Upload all exports to Google Drive
+  #  needs: [windows-export, linux-export, macos-export]
+  #  runs-on: ubuntu-latest
+#
+  #  steps:
+  #    - name: Download all workflow run artifacts
+  #      uses: actions/download-artifact@v3
+#
+  #    - name: Setup env
+  #      run: |
+  #        echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
+  #        mv hardwario-code-windows/* .
+  #        mv hardwario-code-linux/* .
+  #        mv hardwario-code-macos/* .
+#
+  #    - name: Upload to gdrive Windows
+  #      uses: adityak74/google-drive-upload-git-action@main
+  #      with:
+  #        credentials: ${{ secrets.credentials }}
+  #        filename: "hardwario-code-windows-${{env.TAG}}.zip"
+  #        folderId: ${{ secrets.folderId }}
+  #    
+  #    - name: Upload to gdrive Linux
+  #      uses: adityak74/google-drive-upload-git-action@main
+  #      with:
+  #        credentials: ${{ secrets.credentials }}
+  #        filename: "hardwario-code-linux-${{env.TAG}}.tar.gz"
+  #        folderId: ${{ secrets.folderId }}
+#
+  #    - name: Upload to gdrive macOS
+  #      uses: adityak74/google-drive-upload-git-action@main
+  #      with:
+  #        credentials: ${{ secrets.credentials }}
+  #        filename: "hardwario-code-macos-${{env.TAG}}.pkg"
+  #        folderId: ${{ secrets.folderId }}
 
   windows-export:
     name: Export HARDWARIO Code Windows
@@ -89,6 +89,21 @@ jobs:
         shell: bash
         run: echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
 
+      - name: Create insteller
+        shell: pwsh
+        run: |
+          $advinst = New-Object -ComObject AdvancedInstaller
+          $project = $advinst.CreateProjectS("freeware")
+          $project.ProductDetails.Name = "Visual Studio Code - HARDWARIO Code"
+          $project.ProductDetails.Publisher = "HARDWARIO a.s."
+          $project.ProductDetails.Version = "${{env.TAG}}"
+          $project.ProductDetails
+          $project.FilesComponent.AddFolderContentS("appdir", "\hardwario-code")
+          $codeExe = $project.FilesComponent.FindFileByPath("appdir\Code.exe")
+          $project.ShortcutsComponent.CreateFileShortcutS("desktopfolder", "appdir\Code.exe")
+          $project.SaveAs("hardwario-code.aip")
+          $project.Build()
+
       - name: Zip the final product
         run: |
           7z a -tzip hardwario-code-windows hardwario-code/*
@@ -106,138 +121,144 @@ jobs:
         with:
           name: hardwario-code-windows
           path: hardwario-code-windows-${{env.TAG}}.zip
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: hardwario-code-windows-installer
+          path: hardwario-code-SetupFiles/hardwario-code.msi
           
-  linux-export:
-    name: Export HARDWARIO Code Linux
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-          cache: 'pip'
-      - run: pip install gdown
-
-      - name: Get latest HARDWARIO Tower VSCode Extension 
-        uses: robinraju/release-downloader@v1.4
-        with:
-          repository: "hardwario/hardwario-tower-vscode-extension"
-          latest: true
-          fileName: "*.vsix"
-        
-      - run: mv *.vsix hardwario-tower.vsix
-        
-      - name: Download Visual Studio Code and data folder
-        run: gdown --folder 1e3RYcO_byAFfxBGk8_H6Mn6VtRCxRSWN
-                
-      - name: Unzip all downloaded files
-        run: | 
-          tar -xvzf Linux/hardwario-code-linux.tar.gz 
-          mv VSCode-linux-x64 hardwario-code
-          tar -xf Linux/data.tar.xz -C hardwario-code/
-          chmod o+rwx hardwario-code
-          chmod +rwx hardwario-code/code
-          chmod 777 -R hardwario-code/data
-
-      - name: Install all extensions
-        run: |
-          ./hardwario-code/bin/code --install-extension cschlosser.doxdocgen
-          ./hardwario-code/bin/code --install-extension jeff-hykin.better-cpp-syntax
-          ./hardwario-code/bin/code --install-extension marus25.cortex-debug
-          ./hardwario-code/bin/code --install-extension ms-vscode.cpptools
-          ./hardwario-code/bin/code --install-extension ms-vscode.cpptools-themes
-          ./hardwario-code/bin/code --install-extension ms-vscode.vscode-serial-monitor
-          ./hardwario-code/bin/code --install-extension hardwario-tower.vsix
-
-      - name: Setup env
-        run: echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
-
-      - name: Zip the final product
-        run: tar -czvf hardwario-code-linux-${{env.TAG}}.tar.gz hardwario-code/
-
-      - name: Publish the extension;
-        uses: softprops/action-gh-release@v0.1.5
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          files: hardwario-code-linux-${{env.TAG}}.tar.gz
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: hardwario-code-linux
-          path: hardwario-code-linux-${{env.TAG}}.tar.gz
-
-  macos-export:
-    name: Export HARDWARIO Code macOS
-    runs-on: macos-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-          cache: 'pip'
-      - run: pip install gdown
-
-      - name: Get latest HARDWARIO Tower VSCode Extension 
-        uses: robinraju/release-downloader@v1.4
-        with:
-          repository: "hardwario/hardwario-tower-vscode-extension"
-          latest: true
-          fileName: "*.vsix"
-        
-      - run: mv *.vsix hardwario-tower.vsix
-        
-      - name: Download Visual Studio Code and data folder
-        run: gdown --folder 1Lb6Ulpk-yXRd-UpaU8DvYJUFpf_XDkg1 
-                
-      - name: Unzip all downloaded files
-        run: | 
-          mkdir hardwario-code
-          unzip macOS/hardwario-code-macos.zip
-          unzip macOS/data.zip -d hardwario-code/
-          xattr -dr com.apple.quarantine Visual\ Studio\ Code.app
-          mv Visual\ Studio\ Code.app hardwario-code/Visual\ Studio\ Code.app
-          chmod -R 777 hardwario-code/
-          ls hardwario-code
-
-      - name: Install all extensions
-        run: |
-          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension cschlosser.doxdocgen
-          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension jeff-hykin.better-cpp-syntax
-          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension marus25.cortex-debug
-          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.cpptools
-          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.cpptools-themes
-          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.vscode-serial-monitor
-          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension hardwario-tower.vsix
-
-      - name: Prepare macOS Installer
-        run: | 
-          git clone https://github.com/SmejkalJakub/hardwario-macos-installer.git
-          mv hardwario-code/Visual\ Studio\ Code.app hardwario-macos-installer/macOS-x64/application/Visual\ Studio\ Code.app
-          mv hardwario-code/code-portable-data hardwario-macos-installer/macOS-x64/application/code-portable-data
-          ls hardwario-macos-installer/macOS-x64/application/
-
-      - name: Setup env
-        run: echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
-
-      - name: Run macOS Installer
-        run: | 
-          bash hardwario-macos-installer/macOS-x64/build-macos-x64.sh hardwario-code ${{env.TAG}}
-          ls hardwario-macos-installer/macOS-x64/target/pkg/
-          mv hardwario-macos-installer/macOS-x64/target/pkg/hardwario-code-macos-${{env.TAG}}.pkg hardwario-code-macos-${{env.TAG}}.pkg
-
-      - name: Publish the extension
-        uses: softprops/action-gh-release@v0.1.5
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          files: hardwario-code-macos-${{env.TAG}}.pkg
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: hardwario-code-macos
-          path: hardwario-code-macos-${{env.TAG}}.pkg
+  #linux-export:
+  #  name: Export HARDWARIO Code Linux
+  #  runs-on: ubuntu-latest
+#
+  #  steps:
+  #    - uses: actions/checkout@v3
+  #    - uses: actions/setup-python@v4
+  #      with:
+  #        python-version: '3.9'
+  #        cache: 'pip'
+  #    - run: pip install gdown
+#
+  #    - name: Get latest HARDWARIO Tower VSCode Extension 
+  #      uses: robinraju/release-downloader@v1.4
+  #      with:
+  #        repository: "hardwario/hardwario-tower-vscode-extension"
+  #        latest: true
+  #        fileName: "*.vsix"
+  #      
+  #    - run: mv *.vsix hardwario-tower.vsix
+  #      
+  #    - name: Download Visual Studio Code and data folder
+  #      run: gdown --folder 1e3RYcO_byAFfxBGk8_H6Mn6VtRCxRSWN
+  #              
+  #    - name: Unzip all downloaded files
+  #      run: | 
+  #        tar -xvzf Linux/hardwario-code-linux.tar.gz 
+  #        mv VSCode-linux-x64 hardwario-code
+  #        tar -xf Linux/data.tar.xz -C hardwario-code/
+  #        chmod o+rwx hardwario-code
+  #        chmod +rwx hardwario-code/code
+  #        chmod 777 -R hardwario-code/data
+#
+  #    - name: Install all extensions
+  #      run: |
+  #        ./hardwario-code/bin/code --install-extension cschlosser.doxdocgen
+  #        ./hardwario-code/bin/code --install-extension jeff-hykin.better-cpp-syntax
+  #        ./hardwario-code/bin/code --install-extension marus25.cortex-debug
+  #        ./hardwario-code/bin/code --install-extension ms-vscode.cpptools
+  #        ./hardwario-code/bin/code --install-extension ms-vscode.cpptools-themes
+  #        ./hardwario-code/bin/code --install-extension ms-vscode.vscode-serial-monitor
+  #        ./hardwario-code/bin/code --install-extension hardwario-tower.vsix
+#
+  #    - name: Setup env
+  #      run: echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
+#
+  #    - name: Zip the final product
+  #      run: tar -czvf hardwario-code-linux-${{env.TAG}}.tar.gz hardwario-code/
+#
+  #    - name: Publish the extension;
+  #      uses: softprops/action-gh-release@v0.1.5
+  #      env:
+  #        GITHUB_TOKEN: ${{ github.token }}
+  #      with:
+  #        files: hardwario-code-linux-${{env.TAG}}.tar.gz
+#
+  #    - name: Upload Artifact
+  #      uses: actions/upload-artifact@v3
+  #      with:
+  #        name: hardwario-code-linux
+  #        path: hardwario-code-linux-${{env.TAG}}.tar.gz
+#
+  #macos-export:
+  #  name: Export HARDWARIO Code macOS
+  #  runs-on: macos-latest
+#
+  #  steps:
+  #    - uses: actions/checkout@v3
+  #    - uses: actions/setup-python@v4
+  #      with:
+  #        python-version: '3.9'
+  #        cache: 'pip'
+  #    - run: pip install gdown
+#
+  #    - name: Get latest HARDWARIO Tower VSCode Extension 
+  #      uses: robinraju/release-downloader@v1.4
+  #      with:
+  #        repository: "hardwario/hardwario-tower-vscode-extension"
+  #        latest: true
+  #        fileName: "*.vsix"
+  #      
+  #    - run: mv *.vsix hardwario-tower.vsix
+  #      
+  #    - name: Download Visual Studio Code and data folder
+  #      run: gdown --folder 1Lb6Ulpk-yXRd-UpaU8DvYJUFpf_XDkg1 
+  #              
+  #    - name: Unzip all downloaded files
+  #      run: | 
+  #        mkdir hardwario-code
+  #        unzip macOS/hardwario-code-macos.zip
+  #        unzip macOS/data.zip -d hardwario-code/
+  #        xattr -dr com.apple.quarantine Visual\ Studio\ Code.app
+  #        mv Visual\ Studio\ Code.app hardwario-code/Visual\ Studio\ Code.app
+  #        chmod -R 777 hardwario-code/
+  #        ls hardwario-code
+#
+  #    - name: Install all extensions
+  #      run: |
+  #        ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension cschlosser.doxdocgen
+  #        ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension jeff-hykin.better-cpp-syntax
+  #        ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension marus25.cortex-debug
+  #        ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.cpptools
+  #        ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.cpptools-themes
+  #        ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.vscode-serial-monitor
+  #        ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension hardwario-tower.vsix
+#
+  #    - name: Prepare macOS Installer
+  #      run: | 
+  #        git clone https://github.com/SmejkalJakub/hardwario-macos-installer.git
+  #        mv hardwario-code/Visual\ Studio\ Code.app hardwario-macos-installer/macOS-x64/application/Visual\ Studio\ Code.app
+  #        mv hardwario-code/code-portable-data hardwario-macos-installer/macOS-x64/application/code-portable-data
+  #        ls hardwario-macos-installer/macOS-x64/application/
+#
+  #    - name: Setup env
+  #      run: echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
+#
+  #    - name: Run macOS Installer
+  #      run: | 
+  #        bash hardwario-macos-installer/macOS-x64/build-macos-x64.sh hardwario-code ${{env.TAG}}
+  #        ls hardwario-macos-installer/macOS-x64/target/pkg/
+  #        mv hardwario-macos-installer/macOS-x64/target/pkg/hardwario-code-macos-${{env.TAG}}.pkg hardwario-code-macos-${{env.TAG}}.pkg
+#
+  #    - name: Publish the extension
+  #      uses: softprops/action-gh-release@v0.1.5
+  #      env:
+  #        GITHUB_TOKEN: ${{ github.token }}
+  #      with:
+  #        files: hardwario-code-macos-${{env.TAG}}.pkg
+#
+  #    - name: Upload Artifact
+  #      uses: actions/upload-artifact@v3
+  #      with:
+  #        name: hardwario-code-macos
+  #        path: hardwario-code-macos-${{env.TAG}}.pkg
