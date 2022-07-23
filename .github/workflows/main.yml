@@ -57,6 +57,10 @@ jobs:
           cache: 'pip'
       - run: pip install gdown
 
+      - uses: slidoapp/setup-advancedinstaller@v2
+        with:
+          version: '19.7'
+
       - name: Get latest HARDWARIO Tower VSCode Extension 
         uses: robinraju/release-downloader@v1.4
         with:
@@ -89,7 +93,7 @@ jobs:
         shell: bash
         run: echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
 
-      - name: Create insteller
+      - name: Create installer
         shell: pwsh
         run: |
           $advinst = New-Object -ComObject AdvancedInstaller
