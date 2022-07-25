@@ -96,8 +96,7 @@ jobs:
         run: | 
           echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
           echo "INSTALLER_TAG=${{env.WINDOWS_INSTALLER_VERSION}}" >> "$GITHUB_ENV"
-          mkdir hardwario-code-SetupFiles
-
+          
       - name: Create installer
         shell: pwsh
         run: |
