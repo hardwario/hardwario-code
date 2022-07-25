@@ -96,6 +96,7 @@ jobs:
         run: | 
           echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
           echo "INSTALLER_TAG=${{env.WINDOWS_INSTALLER_VERSION}}" >> "$GITHUB_ENV"
+          mkdir hardwario-code-SetupFiles
 
       - name: Create installer
         shell: pwsh
@@ -114,6 +115,7 @@ jobs:
 #$project.ShortcutsComponent.CreateFileShortcutS("desktopfolder", "appdir\Code.exe")
       - name: Zip the final product
         run: |
+          ls .
           7z a -tzip hardwario-code-windows hardwario-code/*
           ren hardwario-code-windows.zip hardwario-code-windows-${{env.TAG}}.zip
 
