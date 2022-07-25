@@ -113,6 +113,7 @@ jobs:
           $outputFolder = join-path $env:GITHUB_WORKSPACE "setup";
           $defaultBuild = $project.BuildComponent.Builds[0];
           $defaultBuild.OutputFolder = $outputFolder
+          $project.SaveAs("hardwario-code.aip")
           $project.Build()
 
       - name: Zip the final product
