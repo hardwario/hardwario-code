@@ -110,7 +110,9 @@ jobs:
           $project.FilesComponent.AddFolderContentS("appdir", "${{ github.workspace }}/hardwario-code")
           $codeExe = $project.FilesComponent.FindFileByPath("appdir\Code.exe")
           $project.ShortcutsComponent.CreateFileShortcutS("desktopfolder", "appdir\Code.exe")
-          $project.SaveAs("hardwario-code.aip")
+          $outputFolder = join-path $env:GITHUB_WORKSPACE "setup";
+          $defaultBuild = $project.BuildComponent.Builds[0];
+          $defaultBuild.OutputFolder = $outputFolder
           $project.Build()
 
       - name: Zip the final product
@@ -136,7 +138,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: hardwario-code-windows-installer
-          path: hardwario-code-SetupFiles/hardwario-code.msi
+          path: setup/hardwario-code.msi
           
   #linux-export:
   #  name: Export HARDWARIO Code Linux
