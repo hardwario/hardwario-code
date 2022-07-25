@@ -107,12 +107,12 @@ jobs:
           $project.ProductDetails.Publisher = "HARDWARIO a.s."
           $project.ProductDetails.Version = "${{env.INSTALLER_TAG}}"
           $project.ProductDetails
-          $project.FilesComponent.AddFolderContentS("appdir", "\hardwario-code")
+          $project.FilesComponent.AddFolderContentS("appdir", "${{env.GITHUB_WORKSPACE}}/hardwario-code")
           $codeExe = $project.FilesComponent.FindFileByPath("appdir\Code.exe")
+          $project.ShortcutsComponent.CreateFileShortcutS("desktopfolder", "appdir\Code.exe")
           $project.SaveAs("hardwario-code.aip")
           $project.Build()
 
-#$project.ShortcutsComponent.CreateFileShortcutS("desktopfolder", "appdir\Code.exe")
       - name: Zip the final product
         run: |
           ls .
