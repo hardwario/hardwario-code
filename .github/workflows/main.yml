@@ -98,7 +98,7 @@ jobs:
           echo "INSTALLER_TAG=${{env.WINDOWS_INSTALLER_VERSION}}" >> "$GITHUB_ENV"
           
       - name: Create installer
-        shell: pwsh
+        shell: PowerShell
         run: |
           $advinst = New-Object -ComObject AdvancedInstaller
           $project = $advinst.CreateProjectS("freeware")
