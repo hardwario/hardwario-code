@@ -5,8 +5,8 @@ on:
     types: [published]
 
 env: 
-  VERSION: ${GITHUB_REF*/}
-  WINDOWS_INSTALLER_VERSION: ${GITHUB_REF*/v}
+  VERSION: ${GITHUB_REF##*/}
+  WINDOWS_INSTALLER_VERSION: ${GITHUB_REF##*/v}
 
 jobs:
   gdrive-upload:
