@@ -96,22 +96,25 @@ jobs:
         run: | 
           echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
           echo "INSTALLER_TAG=${{env.WINDOWS_INSTALLER_VERSION}}" >> "$GITHUB_ENV"
+
+      - run: mv hardwario-code/Code.exe hardwario-code/HARDWARIO\ Code.exe 
           
       - name: Create installer
         shell: PowerShell
         run: |
           $advinst = New-Object -ComObject AdvancedInstaller
           $project = $advinst.CreateProjectS("freeware")
-          $project.ProductDetails.Name = "Visual Studio Code - HARDWARIO Code"
+          $project.ProductDetails.Name = "HARDWARIO Code"
           $project.ProductDetails.Publisher = "HARDWARIO a.s."
           $project.ProductDetails.Version = "${{env.INSTALLER_TAG}}"
           $project.ProductDetails
           $project.FilesComponent.AddFolderContentS("appdir", "${{ github.workspace }}\hardwario-code")
+          $project.InstallParameters.ApplicationFolder = "[ProgramFilesFolder][ProductName]"
           $project.FilesComponent.Files | Where-Object {[System.IO.Path]::GetExtension($_.FullPath) -eq ".ipdb"} | ForEach-Object {$_.DeleteFile()}
           $project.FilesComponent.Files | Where-Object {[System.IO.Path]::GetExtension($_.FullPath) -eq ".iobj"} | ForEach-Object {$_.DeleteFile()}
           $codeExe = $project.FilesComponent.FindFileByPath("appdir\Code.exe")
-          $project.ShortcutsComponent.CreateFileShortcutS("desktopfolder", "appdir\Code.exe")
-          $project.ShortcutsComponent.CreateFileShortcutS($project.PredefinedFolders.ShortcutFolder.FullPath, "appdir\Code.exe")
+          $project.ShortcutsComponent.CreateFileShortcutS("desktopfolder", "appdir\HARDWARIO Code.exe")
+          $project.ShortcutsComponent.CreateFileShortcutS($project.PredefinedFolders.ShortcutFolder.FullPath, "appdir\HARDWARIO Code.exe")
           $outputFolder = "${{ github.workspace }}\setup";
           $defaultBuild = $project.BuildComponent.Builds[0];
           $defaultBuild.OutputFolder = $outputFolder
@@ -120,16 +123,21 @@ jobs:
 
       - name: Zip the final product
         run: |
-          ls .
+          ls setup/
           7z a -tzip hardwario-code-windows hardwario-code/*
           ren hardwario-code-windows.zip hardwario-code-windows-${{env.TAG}}.zip
+          mv setup/*.msi setup/hardwario-code-${{env.TAG}}.msi
 
       - name: Publish the extension;
         uses: softprops/action-gh-release@v0.1.5
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          files: hardwario-code-windows-${{env.TAG}}.zip
+          files: | 
+            hardwario-code-windows-${{env.TAG}}.zip
+            setup/hardwario-code-${{env.TAG}}.msi
+
+
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
