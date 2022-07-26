@@ -36,14 +36,14 @@ jobs:
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.credentials }}
-          filename: "hio-code-linux-${{env.TAG}}.tar.gz"
+          filename: "hio-code-${{env.TAG}}-linux.tar.gz"
           folderId: ${{ secrets.folderId }}
 
       - name: Upload to gdrive macOS
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.credentials }}
-          filename: "hio-code-macos-${{env.TAG}}.pkg"
+          filename: "hio-code-${{env.TAG}}-macos.pkg"
           folderId: ${{ secrets.folderId }}
 
   windows-export:
@@ -186,20 +186,20 @@ jobs:
         run: echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
 
       - name: Zip the final product
-        run: tar -czvf hio-code-linux-${{env.TAG}}.tar.gz hardwario-code/
+        run: tar -czvf hio-code-${{env.TAG}}-linux.tar.gz hardwario-code/
 
       - name: Publish the extension;
         uses: softprops/action-gh-release@v0.1.5
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          files: hio-code-linux-${{env.TAG}}.tar.gz
+          files: hio-code-${{env.TAG}}-linux.tar.gz
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: hardwario-code-linux
-          path: hio-code-linux-${{env.TAG}}.tar.gz
+          path: hio-code-${{env.TAG}}-linux.tar.gz
 
   macos-export:
     name: Export HARDWARIO Code macOS
@@ -257,17 +257,17 @@ jobs:
         run: | 
           bash hardwario-macos-installer/macOS-x64/build-macos-x64.sh hardwario-code ${{env.TAG}}
           ls hardwario-macos-installer/macOS-x64/target/pkg/
-          mv hardwario-macos-installer/macOS-x64/target/pkg/hardwario-code-macos-${{env.TAG}}.pkg hio-code-macos-${{env.TAG}}.pkg
+          mv hardwario-macos-installer/macOS-x64/target/pkg/hardwario-code-macos-${{env.TAG}}.pkg hio-code-${{env.TAG}}-macos.pkg
 
       - name: Publish the extension
         uses: softprops/action-gh-release@v0.1.5
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          files: hio-code-macos-${{env.TAG}}.pkg
+          files: hio-code-${{env.TAG}}-macos.pkg
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: hardwario-code-macos
-          path: hio-code-macos-${{env.TAG}}.pkg
+          path: hio-code-${{env.TAG}}-macos.pkg
