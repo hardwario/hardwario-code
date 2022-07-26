@@ -107,12 +107,15 @@ jobs:
           $project.ProductDetails.Version = "${{env.INSTALLER_TAG}}"
           $project.ProductDetails
           $project.FilesComponent.AddFolderContentS("appdir", "${{ github.workspace }}/hardwario-code")
+          $project.FilesComponent.Files | Where-Object {[System.IO.Path]::GetExtension($_.FullPath) -eq ".ipdb"} | ForEach-Object {$_.DeleteFile()}
+          $project.FilesComponent.Files | Where-Object {[System.IO.Path]::GetExtension($_.FullPath) -eq ".iobj"} | ForEach-Object {$_.DeleteFile()}
           $codeExe = $project.FilesComponent.FindFileByPath("appdir\Code.exe")
           $project.ShortcutsComponent.CreateFileShortcutS("desktopfolder", "appdir\Code.exe")
-          $outputFolder = join-path $env:GITHUB_WORKSPACE "setup";
+          $project.ShortcutsComponent.CreateFileShortcutS($project.PredefinedFolders.ShortcutFolder.FullPath, "appdir\Code.exe")
+          $outputFolder = join-path ${{ github.workspace }} "setup";
           $defaultBuild = $project.BuildComponent.Builds[0];
           $defaultBuild.OutputFolder = $outputFolder
-          $project.SaveAs("hardwario-code.aip")
+          $project.SaveAs("${{ github.workspace }}/hardwario-code.aip")
           $project.Build()
 
       - name: Zip the final product
