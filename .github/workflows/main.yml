@@ -108,17 +108,20 @@ jobs:
           $project.ProductDetails.Publisher = "HARDWARIO a.s."
           $project.ProductDetails.Version = "${{env.INSTALLER_TAG}}"
           $project.ProductDetails
+
           $project.FilesComponent.AddFolderContentS("appdir", "${{ github.workspace }}\hardwario-code")
           $project.InstallParameters.ApplicationFolder = "[ProgramFilesFolder][ProductName]"
-          $codeExe = $project.FilesComponent.FindFileByPath("appdir\HARDWARIO Code.exe")
+          $project.ProductDetails.SetIcon("${{ github.workspace }}\media\hardwario-code-icon.ico")
+
           $project.ShortcutsComponent.CreateFileShortcutS("desktopfolder", "appdir\HARDWARIO Code.exe")
+          $project.ShortcutsComponent.CreateFileShortcutS($project.PredefinedFolders.ShortcutFolder.FullPath, "appdir\HARDWARIO Code.exe")
           $project.ShortcutsComponent.Shortcuts[0].Icon("${{ github.workspace }}\media\hardwario-code-icon.ico")
           $project.ShortcutsComponent.Shortcuts[1].Icon("${{ github.workspace }}\media\hardwario-code-icon.ico")
-          $project.ProductDetails.SetIcon("${{ github.workspace }}\media\hardwario-code-icon.ico")
-          $project.ShortcutsComponent.CreateFileShortcutS($project.PredefinedFolders.ShortcutFolder.FullPath, "appdir\HARDWARIO Code.exe")
+          
           $outputFolder = "${{ github.workspace }}\setup";
           $defaultBuild = $project.BuildComponent.Builds[0];
           $defaultBuild.OutputFolder = $outputFolder
+          
           $project.SaveAs("${{ github.workspace }}\hardwario-code.aip")
           $project.Build()
 
