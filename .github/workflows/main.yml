@@ -87,6 +87,7 @@ jobs:
           call hardwario-code/bin/code.cmd --install-extension marus25.cortex-debug
           call hardwario-code/bin/code.cmd --install-extension ms-vscode.cpptools
           call hardwario-code/bin/code.cmd --install-extension ms-vscode.cpptools-themes
+          call hardwario-code/bin/code.cmd --install-extension twxs.cmake
           call hardwario-code/bin/code.cmd --install-extension hardwario-tower.vsix
 
       - name: Setup env
@@ -180,6 +181,7 @@ jobs:
           ./hardwario-code/bin/code --install-extension marus25.cortex-debug
           ./hardwario-code/bin/code --install-extension ms-vscode.cpptools
           ./hardwario-code/bin/code --install-extension ms-vscode.cpptools-themes
+          ./hardwario-code/bin/code --install-extension twxs.cmake
           ./hardwario-code/bin/code --install-extension hardwario-tower.vsix
 
       - name: Setup env
@@ -241,6 +243,7 @@ jobs:
           ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension marus25.cortex-debug
           ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.cpptools
           ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.cpptools-themes
+          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension twxs.cmake
           ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension hardwario-tower.vsix
 
       - name: Prepare macOS Installer
