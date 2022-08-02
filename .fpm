@@ -1,5 +1,5 @@
 -s dir
---name HARDWARIO\ Code
+--name hardwario-code
 --license mit
 --architecture all
 --description "Tool for development of HARDWARIO TOWER firmware"
