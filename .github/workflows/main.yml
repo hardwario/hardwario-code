@@ -164,6 +164,7 @@ jobs:
         run: |
           sudo apt-get install ruby-dev build-essential
           sudo gem install fpm
+          sudo apt-get install rpm
 
       - run: mv *.vsix hardwario-tower.vsix
         
@@ -199,6 +200,7 @@ jobs:
       - name: Create packages
         run: |
           fpm -t deb --version ${{env.PLAIN_TAG}} -p hio-code-${{env.TAG}}-linux.deb hardwario-code
+          fpm -t rpm --version ${{env.PLAIN_TAG}} -p hio-code-${{env.TAG}}-linux.rpm hardwario-code
 
       - name: Publish the extension;
         uses: softprops/action-gh-release@v0.1.5
@@ -208,6 +210,7 @@ jobs:
           files: |
             hio-code-${{env.TAG}}-linux.tar.gz
             hio-code-${{env.TAG}}-linux.deb
+            hio-code-${{env.TAG}}-linux.rpm
 
 #      - name: Upload Artifact
 #        uses: actions/upload-artifact@v3
