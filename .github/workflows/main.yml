@@ -198,7 +198,6 @@ jobs:
 
       - name: Create packages
         run: |
-#          mv hardwario-code HARDWARIO\ Code
           fpm -t deb --version ${{env.PLAIN_TAG}} -p hio-code-${{env.TAG}}-linux.deb hardwario-code
 
       - name: Publish the extension;
