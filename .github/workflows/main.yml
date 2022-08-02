@@ -198,7 +198,7 @@ jobs:
         run: |
           mv hardwario-code HARDWARIO\ Code
           sed -r -i'' "s/\"1.0.0\"/\"${{env.TAG}}\"/g" .fpm
-          fpm -t deb HARDWARIO\ Code/ -p hio-code-${{env.TAG}}-linux.deb
+          fpm -t deb -p hio-code-${{env.TAG}}-linux.deb HARDWARIO\ Code/
 
       - name: Publish the extension;
         uses: softprops/action-gh-release@v0.1.5
