@@ -191,14 +191,14 @@ jobs:
       - name: Setup env
         run: echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
 
+      - name: Zip the final product
+        run: tar -czvf hio-code-${{env.TAG}}-linux.tar.gz hardwario-code/
+
       - name: Create packages
         run: |
           mv hardwario-code HARDWARIO\ Code
           sed -r -i'' "s/\"1.0.0\"/\"${{env.TAG}}\"/g" .fpm
           fpm -t deb HARDWARIO\ Code/ -p hio-code-${{env.TAG}}-linux.deb
-
-      - name: Zip the final product
-        run: tar -czvf hio-code-${{env.TAG}}-linux.tar.gz hardwario-code/
 
       - name: Publish the extension;
         uses: softprops/action-gh-release@v0.1.5
