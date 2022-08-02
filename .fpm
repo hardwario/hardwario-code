@@ -5,5 +5,4 @@
 --description "Tool for development of HARDWARIO TOWER firmware"
 --url "https://tower.hardwario.com/en/latest/firmware/hardwario-code-tutorial"
 --maintainer "Jakub Smejkal <jakub.smejkal@hardwario.com>"
---version 1.0.0
 --prefix /opt/

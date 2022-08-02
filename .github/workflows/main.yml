@@ -6,7 +6,7 @@ on:
 
 env: 
   VERSION: ${GITHUB_REF##*/}
-  WINDOWS_INSTALLER_VERSION: ${GITHUB_REF##*/v}
+  PLAIN_VERSION: ${GITHUB_REF##*/v}
 
 jobs:
 #  gdrive-upload:
@@ -93,7 +93,7 @@ jobs:
 #        shell: bash
 #        run: | 
 #          echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
-#          echo "INSTALLER_TAG=${{env.WINDOWS_INSTALLER_VERSION}}" >> "$GITHUB_ENV"
+#          echo "INSTALLER_TAG=${{env.PLAIN_VERSION}}" >> "$GITHUB_ENV"
 
 #      - name: Rename executable
 #        shell: bash 
@@ -189,7 +189,9 @@ jobs:
           ./hardwario-code/bin/code --install-extension hardwario-tower.vsix
 
       - name: Setup env
-        run: echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
+        run: |
+          echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
+          echo "PLAIN_TAG=${{env.PLAIN_VERSION}}" >> "$GITHUB_ENV"
 
       - name: Zip the final product
         run: tar -czvf hio-code-${{env.TAG}}-linux.tar.gz hardwario-code/
@@ -197,8 +199,7 @@ jobs:
       - name: Create packages
         run: |
           mv hardwario-code HARDWARIO\ Code
-          sed -r -i'' "s/\"1.0.0\"/\"${{env.TAG}}\"/g" .fpm
-          fpm -t deb -p hio-code-${{env.TAG}}-linux.deb HARDWARIO\ Code/
+          fpm -t deb --version ${{env.PLAIN_TAG}} -p hio-code-${{env.TAG}}-linux.deb HARDWARIO\ Code/
 
       - name: Publish the extension;
         uses: softprops/action-gh-release@v0.1.5
