@@ -216,8 +216,8 @@ jobs:
 
       - name: Create packages
         run: |
-          fpm -t deb --version ${{env.PLAIN_TAG}} --after-install afterInstallScript.sh -p hio-code-${{env.TAG}}-linux.deb hardwario-code
-          fpm -t rpm --version ${{env.PLAIN_TAG}} --after-install afterInstallScript.sh -p hio-code-${{env.TAG}}-linux.rpm hardwario-code
+          fpm -t deb --version ${{env.PLAIN_TAG}} --after-install afterInstallScript.sh --after-remove afterRemoveScript.sh -p hio-code-${{env.TAG}}-linux.deb hardwario-code
+          fpm -t rpm --version ${{env.PLAIN_TAG}} --after-install afterInstallScript.sh --after-remove afterRemoveScript.sh -p hio-code-${{env.TAG}}-linux.rpm hardwario-code
 
       - name: Publish the extension
         uses: softprops/action-gh-release@v0.1.5
