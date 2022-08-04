@@ -143,9 +143,13 @@ jobs:
       - name: Change the msi name
         run: mv setup/*.msi hio-code-${{env.TAG}}-windows.msi
 
-      - name: Publish the extension
+      - name: Publish the extension;
         uses: softprops/action-gh-release@v0.1.5
-  
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          files: hio-code-${{env.TAG}}-windows.msi
+     
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
