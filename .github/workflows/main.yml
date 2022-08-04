@@ -197,7 +197,7 @@ jobs:
           chmod +rwx hardwario-code/code
           chmod 777 -R hardwario-code/data
           cp media/hardwario-code-icon.png hardwario-code/
-          cp media/hardwario-code.desktop
+          cp media/hardwario-code.desktop hardwario-code/
 
       - name: Install all extensions
         run: |
