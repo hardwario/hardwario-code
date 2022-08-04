@@ -145,11 +145,13 @@ jobs:
 
       - name: Publish the extension;
         uses: softprops/action-gh-release@v0.1.5
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+     
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
         with:
-          files: hio-code-${{env.TAG}}-windows.msi
-
+          name: hardwario-code-windows
+          name: hardwario-code-windows
+  
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
@@ -194,6 +196,8 @@ jobs:
           chmod o+rwx hardwario-code
           chmod +rwx hardwario-code/code
           chmod 777 -R hardwario-code/data
+          cp media/hardwario-code-icon.png hardwario-code/
+          cp media/hardwario-code.desktop
 
       - name: Install all extensions
         run: |

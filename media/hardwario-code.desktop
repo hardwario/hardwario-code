@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Exec=/opt/hardwario-code/code
+Name=HARDWARIO Code
+Icon=hardwario-code-icon
+NoDisplay=false
