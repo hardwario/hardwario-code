@@ -145,12 +145,6 @@ jobs:
 
       - name: Publish the extension
         uses: softprops/action-gh-release@v0.1.5
-     
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: hardwario-code-windows
-          name: hardwario-code-windows
   
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
