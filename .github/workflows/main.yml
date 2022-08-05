@@ -91,7 +91,7 @@ jobs:
       
       - name: Unzip all downloaded files
         run: | 
-          7z x Windows/hardwario-code-windows.zip -r 
+          7z x Windows/hardwario-code-windows.zip -ohardwario-code/ -r 
           7z x Windows/data.zip -ohardwario-code/ -r
 
       - name: Install all extensions
