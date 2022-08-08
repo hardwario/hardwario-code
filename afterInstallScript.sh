@@ -4,5 +4,5 @@ chmod 777 -R /opt/hardwario-code/data
 mv /opt/hardwario-code/hardwario-code-icon.png /usr/share/icons/
 mv /opt/hardwario-code/hardwario-code.desktop /usr/share/applications/
 cp /opt/hardwario-code/data/tower/toolchain/SEGGER/JLink/99-jlink.rules /etc/udev/rules.d/
-mkdir ~/data
+mkdir -p ~/data
 cp -r /opt/hardwario-code/data/tower ~/data
