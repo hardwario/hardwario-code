@@ -39,19 +39,19 @@ jobs:
           filename: "hio-code-${{env.TAG}}-linux.tar.gz"
           folderId: ${{ secrets.folderId }}
 
-      - name: Upload to gdrive Linux rpm
-        uses: adityak74/google-drive-upload-git-action@main
-        with:
-          credentials: ${{ secrets.credentials }}
-          filename: "hio-code-${{env.TAG}}-linux.rpm"
-          folderId: ${{ secrets.folderId }}
+#      - name: Upload to gdrive Linux rpm
+#        uses: adityak74/google-drive-upload-git-action@main
+#        with:
+#          credentials: ${{ secrets.credentials }}
+#          filename: "hio-code-${{env.TAG}}-linux.rpm"
+#          folderId: ${{ secrets.folderId }}
 
-      - name: Upload to gdrive Linux deb
-        uses: adityak74/google-drive-upload-git-action@main
-        with:
-          credentials: ${{ secrets.credentials }}
-          filename: "hio-code-${{env.TAG}}-linux.deb"
-          folderId: ${{ secrets.folderId }}
+#      - name: Upload to gdrive Linux deb
+#        uses: adityak74/google-drive-upload-git-action@main
+#        with:
+#          credentials: ${{ secrets.credentials }}
+#          filename: "hio-code-${{env.TAG}}-linux.deb"
+#          folderId: ${{ secrets.folderId }}
 
       - name: Upload to gdrive macOS
         uses: adityak74/google-drive-upload-git-action@main
@@ -198,7 +198,7 @@ jobs:
 
           cp media/hardwario-code-icon.png hardwario-code/
           cp media/hardwario-code.desktop hardwario-code/
-          
+
           cp media/install.sh hardwario-code/
           chmod +x hardwario-code/install.sh
 
