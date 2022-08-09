@@ -175,11 +175,11 @@ jobs:
           latest: true
           fileName: "*.vsix"
         
-      - name: Install fpm
-        run: |
-          sudo apt-get install ruby-dev build-essential
-          sudo gem install fpm
-          sudo apt-get install rpm
+#      - name: Install fpm
+#        run: |
+#          sudo apt-get install ruby-dev build-essential
+#          sudo gem install fpm
+#          sudo apt-get install rpm
 
       - run: mv *.vsix hardwario-tower.vsix
         
@@ -189,13 +189,18 @@ jobs:
       - name: Unzip all downloaded files
         run: | 
           tar -xvzf Linux/hardwario-code-linux.tar.gz 
-          mv VSCode-linux-x64 hardwario-code
+          mv VSCode-linux-x64 hardwario-code   
           tar -xf Linux/data.tar.xz -C hardwario-code/
+
           chmod o+rwx hardwario-code
           chmod +rwx hardwario-code/code
           chmod 777 -R hardwario-code/data
+
           cp media/hardwario-code-icon.png hardwario-code/
           cp media/hardwario-code.desktop hardwario-code/
+          
+          cp media/install.sh hardwario-code/
+          chmod +x hardwario-code/install.sh
 
       - name: Install all extensions
         run: |

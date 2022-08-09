@@ -2,7 +2,7 @@
 Version=1.0
 Type=Application
 Terminal=false
-Exec=/opt/hardwario-code/code
+Exec=code-folder/code
 Name=HARDWARIO Code
-Icon=hardwario-code-icon
+Icon=code-folder/hardwario-code-icon.png
 NoDisplay=false
