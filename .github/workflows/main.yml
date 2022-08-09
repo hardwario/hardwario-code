@@ -125,7 +125,7 @@ jobs:
           $project.ProductDetails
 
           $project.FilesComponent.AddFolderContentS("appdir", "${{ github.workspace }}\hardwario-code")
-          $project.InstallParameters.ApplicationFolder = "[LocalAppDataFolder][ProductName]"
+          $project.InstallParameters.ApplicationFolder = "[LocalAppDataFolder]\Programs\[ProductName]"
           $project.ProductDetails.SetIcon("${{ github.workspace }}\media\hardwario-code-icon.ico")
 
           $project.ShortcutsComponent.CreateFileShortcutS("desktopfolder", "appdir\HARDWARIO Code.exe")
