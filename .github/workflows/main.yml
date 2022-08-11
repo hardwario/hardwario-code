@@ -307,7 +307,7 @@ jobs:
 
       - name: Run macOS Installer
         run: | 
-          bash hardwario-macos-installer/macOS-x64/build-macos-x64.sh hardwario-code ${{env.TAG}}
+          bash hardwario-macos-installer/macOS-x64/build-macos-x64.sh "HARDWARIO Code" ${{env.TAG}}
           ls hardwario-macos-installer/macOS-x64/target/pkg/
           mv hardwario-macos-installer/macOS-x64/target/pkg/hardwario-code-macos-${{env.TAG}}.pkg hio-code-${{env.TAG}}-macos.pkg
 
