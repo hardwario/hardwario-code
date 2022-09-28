@@ -11,7 +11,7 @@ env:
 jobs:
   gdrive-upload:
     name: Upload all exports to Google Drive
-    needs: [windows-export, linux-export, macos-export]
+    needs: [windows-export, linux-export, macos-export, macos-mavericks-export]
     runs-on: ubuntu-latest
 
     steps:
@@ -324,8 +324,8 @@ jobs:
           name: hardwario-code-macos
           path: hio-code-${{env.TAG}}-macos.pkg
 
-  macos-old-export:
-    name: Export HARDWARIO Code macOS Older Versions
+  macos-mavericks-export:
+    name: Export HARDWARIO Code macOS Mavericks Versions
     runs-on: macos-latest
 
     steps:
