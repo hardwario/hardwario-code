@@ -351,8 +351,8 @@ jobs:
       - name: Unzip all downloaded files
         run: | 
           mkdir hardwario-code
-          unzip macOS/hardwario-code-macos.zip
-          unzip macOS/data.zip -d hardwario-code/
+          unzip macOS-older/hardwario-code-macos.zip
+          unzip macOS-older/data.zip -d hardwario-code/
           xattr -dr com.apple.quarantine Visual\ Studio\ Code.app
           mv Visual\ Studio\ Code.app hardwario-code/Visual\ Studio\ Code.app
           chmod -R 777 hardwario-code/
