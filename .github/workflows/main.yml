@@ -323,3 +323,75 @@ jobs:
         with:
           name: hardwario-code-macos
           path: hio-code-${{env.TAG}}-macos.pkg
+
+  macos-old-export:
+    name: Export HARDWARIO Code macOS Older Versions
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+      - run: pip install gdown
+
+      - name: Get latest HARDWARIO Tower VSCode Extension 
+        uses: robinraju/release-downloader@v1.4
+        with:
+          repository: "hardwario/hardwario-tower-vscode-extension"
+          latest: true
+          fileName: "*.vsix"
+        
+      - run: mv *.vsix hardwario-tower.vsix
+        
+      - name: Download Visual Studio Code and data folder
+        run: gdown --folder 1EYt1boyt_0s6fsLVx22xJHMFcON5_ZOS 
+                
+      - name: Unzip all downloaded files
+        run: | 
+          mkdir hardwario-code
+          unzip macOS/hardwario-code-macos.zip
+          unzip macOS/data.zip -d hardwario-code/
+          xattr -dr com.apple.quarantine Visual\ Studio\ Code.app
+          mv Visual\ Studio\ Code.app hardwario-code/Visual\ Studio\ Code.app
+          chmod -R 777 hardwario-code/
+          ls hardwario-code
+
+      - name: Install all extensions
+        run: |
+          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension cschlosser.doxdocgen
+          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension marus25.cortex-debug
+          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.cpptools
+          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.cpptools-themes
+          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension twxs.cmake
+          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension hardwario-tower.vsix
+
+      - name: Prepare macOS Installer
+        run: | 
+          git clone https://github.com/SmejkalJakub/hardwario-macos-installer.git
+          mv hardwario-code/Visual\ Studio\ Code.app hardwario-macos-installer/macOS-x64/application/Visual\ Studio\ Code.app
+          mv hardwario-code/code-portable-data hardwario-macos-installer/macOS-x64/application/code-portable-data
+          ls hardwario-macos-installer/macOS-x64/application/
+
+      - name: Setup env
+        run: echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
+
+      - name: Run macOS Installer
+        run: | 
+          bash hardwario-macos-installer/macOS-x64/build-macos-x64.sh hardwario-code ${{env.TAG}}
+          ls hardwario-macos-installer/macOS-x64/target/pkg/
+          mv hardwario-macos-installer/macOS-x64/target/pkg/hardwario-code-macos-${{env.TAG}}.pkg hio-code-${{env.TAG}}-mavericks-macos.pkg
+
+      - name: Publish the extension
+        uses: softprops/action-gh-release@v0.1.5
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          files: hio-code-${{env.TAG}}-mavericks-macos.pkg
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: hardwario-code-macos-mavericks
+          path: hio-code-${{env.TAG}}-mavericks-macos.pkg
