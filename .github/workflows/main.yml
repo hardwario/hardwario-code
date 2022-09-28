@@ -11,7 +11,7 @@ env:
 jobs:
   gdrive-upload:
     name: Upload all exports to Google Drive
-    needs: [windows-export, linux-export, macos-export, macos-mavericks-export]
+    needs: [windows-export, linux-export, macos-export, macos-old-export]
     runs-on: ubuntu-latest
 
     steps:
@@ -324,7 +324,7 @@ jobs:
           name: hardwario-code-macos
           path: hio-code-${{env.TAG}}-macos.pkg
 
-  macos-mavericks-export:
+  macos-old-export:
     name: Export HARDWARIO Code macOS Mavericks Versions
     runs-on: macos-latest
 
@@ -381,17 +381,17 @@ jobs:
         run: | 
           bash hardwario-macos-installer/macOS-x64/build-macos-x64.sh hardwario-code ${{env.TAG}}
           ls hardwario-macos-installer/macOS-x64/target/pkg/
-          mv hardwario-macos-installer/macOS-x64/target/pkg/hardwario-code-macos-${{env.TAG}}.pkg hio-code-${{env.TAG}}-mavericks-macos.pkg
+          mv hardwario-macos-installer/macOS-x64/target/pkg/hardwario-code-macos-${{env.TAG}}.pkg hio-code-${{env.TAG}}-big-sur-macos.pkg
 
       - name: Publish the extension
         uses: softprops/action-gh-release@v0.1.5
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          files: hio-code-${{env.TAG}}-mavericks-macos.pkg
+          files: hio-code-${{env.TAG}}-big-sur-macos.pkg
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: hardwario-code-macos-mavericks
-          path: hio-code-${{env.TAG}}-mavericks-macos.pkg
+          path: hio-code-${{env.TAG}}-big-sur-macos.pkg
