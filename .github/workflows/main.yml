@@ -8,6 +8,14 @@ env:
   VERSION: ${GITHUB_REF##*/}
   PLAIN_VERSION: ${GITHUB_REF##*/v}
 
+  BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+  P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+  BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+  KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+  APP_SPECIFIC_PASSWORD: ${{ secrets.APP_SPECIFIC_PASSWORD }}
+  APP_EMAIL: ${{ secrets.APP_EMAIL }}
+  APPLICATION_CERTIFICATE_BASE64: ${{ secrets.APPLICATION_CERTIFICATE_BASE64 }}
+
 jobs:
   gdrive-upload:
     name: Upload all exports to Google Drive
@@ -266,11 +274,58 @@ jobs:
       - name: Setup env
         run: echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
 
+      - name: Install the Apple certificate and provisioning profile
+        run: |
+          # create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+
+          # import certificate and provisioning profile from secrets
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
+          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
+
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+
+          # apply provisioning profile
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+
+      - name: Codesign every component
+        env: 
+          MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+          MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+        run: |
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          echo $APPLICATION_CERTIFICATE_BASE64 | base64 --decode > application.p12
+          security unlock-keychain -p $KEYCHAIN_PASSWORD $KEYCHAIN_PATH
+          security import application.p12 -k $KEYCHAIN_PATH -P $P12_PASSWORD -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k $KEYCHAIN_PASSWORD $KEYCHAIN_PATH
+          security find-identity -v
+          security find-identity -p codesigning
+
+          find . -perm +111 -type f -or -type l -execdir sudo codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime {} \;
+          find . -name "arm-*" -execdir sudo codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime {} \;
+          find . -name "*.so" -execdir sudo codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime {} \;
+          find . -name "*.dylib" -execdir sudo codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime {} \;
+          find . -name "*.node" -execdir sudo codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime {} \;
+          find . -name "*.o" -execdir sudo codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime {} \;
+
+          bash sign.sh
+
       - name: Run macOS Installer
         run: | 
           bash hardwario-macos-installer/macOS-x64/build-macos-x64.sh hardwario-code ${{env.TAG}}
-          ls hardwario-macos-installer/macOS-x64/target/pkg/
-          mv hardwario-macos-installer/macOS-x64/target/pkg/hardwario-code-macos-${{env.TAG}}.pkg hio-code-${{env.TAG}}-macos.pkg
+          mv hardwario-macos-installer/macOS-x64/target/pkg-signed/hardwario-code-macos-${{env.TAG}}.pkg "${{ github.workspace }}/hio-code-${{env.TAG}}-macos.pkg"
+          xcrun altool --notarize-app --primary-bundle-id "com.hardwario.code" --username "$APP_EMAIL" --password "$APP_SPECIFIC_PASSWORD" --file "${{ github.workspace }}/hio-code-${{env.TAG}}-macos.pkg"
 
       - name: Publish the extension
         uses: softprops/action-gh-release@v0.1.5

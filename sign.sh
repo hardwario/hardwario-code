@@ -1,0 +1,90 @@
+#!/bin/bash
+
+rm -rf hardwario-macos-installer/macOS-x64/application/code-portable-data/user-data/CachedExtensionVSIXs/
+
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/Visual\ Studio\ Code.app/Contents/MacOS/Electron
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/Visual\ Studio\ Code.app/Contents/MacOS/Electron
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/Visual\ Studio\ Code.app/Contents/Frameworks/Electron\ Framework.framework/Versions/A/Electron\ Framework
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/Visual\ Studio\ Code.app/Contents/Frameworks/Electron\ Framework.framework/Versions/A/Electron\ Framework
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/cmake/CMake.app/Contents/MacOS/CMake
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/cmake/CMake.app/Contents/MacOS/CMake
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/lto1
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/lto1
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/lto1
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/f951
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/f951
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/f951
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/g++-mapper-server
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/g++-mapper-server
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/g++-mapper-server
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/lto-wrapper
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/lto-wrapper
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/lto-wrapper
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/cc1plus
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/cc1plus
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/cc1plus
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/collect2
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/collect2
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/collect2
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/cc1
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/cc1
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/cc1
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/plugin/gengtype
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/plugin/gengtype
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/plugin/gengtype
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/install-tools/fixincl
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/install-tools/fixincl
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/libexec/gcc/arm-none-eabi/*/install-tools/fixincl
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/objdump
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/objdump
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/objdump
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/strip
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/strip
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/strip
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/ld
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/ld
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/ld
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/readelf
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/readelf
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/readelf
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/ld.bfd
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/ld.bfd
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/ld.bfd
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/nm
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/nm
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/nm
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/ar
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/ar
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/ar
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/as
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/as
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/as
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/objcopy
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/objcopy
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/objcopy
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/ranlib
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/ranlib
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/gcc/arm-none-eabi/bin/ranlib
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/ninja/ninja
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/ninja/ninja
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/ninja/ninja
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/ninja/ninja
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/ninja/ninja
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/ninja/ninja
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/ninja/ninja
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/tower/toolchain/ninja/ninja
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/extensions/ms-vscode.cpptools-*-darwin-x64/bin/cpptools-srv
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/extensions/ms-vscode.cpptools-*-darwin-x64/bin/cpptools
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/extensions/ms-vscode.cpptools-*-darwin-x64/debugAdapters/lldb/bin/lldb-launcher
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/extensions/ms-vscode.cpptools-*-darwin-x64/debugAdapters/lldb/bin/lldb-launcher
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/extensions/ms-vscode.cpptools-*-darwin-x64/debugAdapters/lldb/bin/lldb-launcher
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/extensions/ms-vscode.cpptools-*-darwin-x64/debugAdapters/lldb/bin/lldb-launcher
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/extensions/ms-vscode.cpptools-*-darwin-x64/debugAdapters/lldb/bin/lldb-launcher
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/extensions/ms-vscode.cpptools-*-darwin-x64/debugAdapters/lldb/bin/lldb-launcher
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/extensions/ms-vscode.cpptools-*-darwin-x64/debugAdapters/lldb/bin/lldb-argdumper
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/extensions/ms-vscode.cpptools-*-darwin-x64/debugAdapters/lldb/bin/lldb-argdumper
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/extensions/ms-vscode.cpptools-*-darwin-x64/debugAdapters/lldb/bin/lldb-argdumper
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/extensions/ms-vscode.cpptools-*-darwin-x64/debugAdapters/lldb/bin/lldb-mi
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/extensions/ms-vscode.cpptools-*-darwin-x64/debugAdapters/lldb/bin/lldb-mi
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/extensions/ms-vscode.cpptools-*-darwin-x64/debugAdapters/lldb/bin/lldb-mi
+codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime hardwario-macos-installer/macOS-x64/application/code-portable-data/extensions/ms-vscode.cpptools-*-darwin-x64/debugAdapters/lldb/bin/debugserver
