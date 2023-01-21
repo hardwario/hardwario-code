@@ -70,18 +70,11 @@ jobs:
         with:
           advinst-version: '19.7'
           advinst-enable-automation: 'true'
-
-      - name: Get latest HARDWARIO Tower VSCode Extension 
-        uses: robinraju/release-downloader@v1.4
-        with:
-          repository: "hardwario/hardwario-tower-vscode-extension"
-          latest: true
-          fileName: "*.vsix"
-        
-      - run: mv *.vsix hardwario-tower.vsix
         
       - name: Download Visual Studio Code and data folder
-        run: gdown --folder 1XnymViTKGAubvZs3_yKOnC2SSQivujBh
+        run: |
+          gdown --folder 1XnymViTKGAubvZs3_yKOnC2SSQivujBh
+          curl -o Windows/hardwario-code-windows.zip --ssl-no-revoke -LO "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-archive" 
       
       - name: Unzip all downloaded files
         run: | 
@@ -96,7 +89,7 @@ jobs:
           call hardwario-code/bin/code.cmd --install-extension ms-vscode.cpptools
           call hardwario-code/bin/code.cmd --install-extension ms-vscode.cpptools-themes
           call hardwario-code/bin/code.cmd --install-extension twxs.cmake
-          call hardwario-code/bin/code.cmd --install-extension hardwario-tower.vsix
+          call hardwario-code/bin/code.cmd --install-extension HARDWARIO.hardwario-tower
 
       - name: Setup env
         shell: bash
@@ -138,7 +131,7 @@ jobs:
         run: mv setup/*.msi hio-code-${{env.TAG}}-windows.msi
 
       - name: Publish the extension;
-        uses: softprops/action-gh-release@v0.1.5
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
@@ -161,18 +154,11 @@ jobs:
           python-version: '3.9'
           cache: 'pip'
       - run: pip install gdown
-
-      - name: Get latest HARDWARIO Tower VSCode Extension 
-        uses: robinraju/release-downloader@v1.4
-        with:
-          repository: "hardwario/hardwario-tower-vscode-extension"
-          latest: true
-          fileName: "*.vsix"
-
-      - run: mv *.vsix hardwario-tower.vsix
         
       - name: Download Visual Studio Code and data folder
-        run: gdown --folder 1e3RYcO_byAFfxBGk8_H6Mn6VtRCxRSWN
+        run: |
+          gdown --folder 1e3RYcO_byAFfxBGk8_H6Mn6VtRCxRSWN
+          curl -o Linux/hardwario-code-linux.tar.gz --ssl-no-revoke -LO "https://code.visualstudio.com/sha/download?build=stable&os=linux-x64" 
                 
       - name: Unzip all downloaded files
         run: | 
@@ -197,7 +183,7 @@ jobs:
           ./hardwario-code/bin/code --install-extension ms-vscode.cpptools
           ./hardwario-code/bin/code --install-extension ms-vscode.cpptools-themes
           ./hardwario-code/bin/code --install-extension twxs.cmake
-          ./hardwario-code/bin/code --install-extension hardwario-tower.vsix
+          ./hardwario-code/bin/code --install-extension HARDWARIO.hardwario-tower
 
       - name: Setup env
         run: |
@@ -208,7 +194,7 @@ jobs:
         run: tar -czvf hio-code-${{env.TAG}}-linux.tar.gz hardwario-code/
 
       - name: Publish the extension
-        uses: softprops/action-gh-release@v0.1.5
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
@@ -243,7 +229,9 @@ jobs:
       - run: mv *.vsix hardwario-tower.vsix
         
       - name: Download Visual Studio Code and data folder
-        run: gdown --folder 1Lb6Ulpk-yXRd-UpaU8DvYJUFpf_XDkg1 
+        run: |
+          gdown --folder 1Lb6Ulpk-yXRd-UpaU8DvYJUFpf_XDkg1 
+          curl -o macOS/hardwario-code-macos.zip --ssl-no-revoke -LO "https://code.visualstudio.com/sha/download?build=stable&os=darwin-universal" 
                 
       - name: Unzip all downloaded files
         run: | 
@@ -262,7 +250,7 @@ jobs:
           ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.cpptools
           ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.cpptools-themes
           ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension twxs.cmake
-          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension hardwario-tower.vsix
+          ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension HARDWARIO.hardwario-tower
 
       - name: Prepare macOS Installer
         run: | 
@@ -328,7 +316,7 @@ jobs:
           xcrun altool --notarize-app --primary-bundle-id "com.hardwario.code" --username "$APP_EMAIL" --password "$APP_SPECIFIC_PASSWORD" --file "${{ github.workspace }}/hio-code-${{env.TAG}}-macos.pkg"
 
       - name: Publish the extension
-        uses: softprops/action-gh-release@v0.1.5
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
