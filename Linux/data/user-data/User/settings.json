@@ -1,0 +1,8 @@
+{
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "git.enableSmartCommit": true,
+    "window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}HARDWARIO Code",
+    "workbench.startupEditor": "none",
+    "git.confirmSync": false,
+    "extensions.ignoreRecommendations": true
+}

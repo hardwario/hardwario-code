@@ -1,0 +1,5 @@
+{
+    "window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}HARDWARIO Code",
+    "extensions.ignoreRecommendations": true,
+    "workbench.startupEditor": "none",
+}

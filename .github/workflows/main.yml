@@ -53,7 +53,7 @@ jobs:
           credentials: ${{ secrets.credentials }}
           filename: "hio-code-${{env.TAG}}-macos.pkg"
           folderId: ${{ secrets.folderId }}
-         
+       
   windows-export:
     name: Export HARDWARIO Code Windows
     runs-on: windows-latest
@@ -63,23 +63,23 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-          cache: 'pip'
-      - run: pip install gdown
 
       - uses: caphyon/advinst-github-action@v1.0
         with:
           advinst-version: '19.7'
           advinst-enable-automation: 'true'
         
-      - name: Download Visual Studio Code and data folder
+      - name: Download and unzip Visual Studio Code
         run: |
-          gdown --folder 1XnymViTKGAubvZs3_yKOnC2SSQivujBh
-          curl -o Windows/hardwario-code-windows.zip --ssl-no-revoke -LO "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-archive" 
-      
-      - name: Unzip all downloaded files
-        run: | 
+          curl -o Windows/hardwario-code-windows.zip --ssl-no-revoke -LO "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-archive"
           7z x Windows/hardwario-code-windows.zip -ohardwario-code/ -r 
-          7z x Windows/data.zip -ohardwario-code/ -r
+      
+      - name: Create data folder
+        run: |
+          export SYSTEM=Windows
+          ./createDataFolder.sh
+          mv Windows/data hardwario-code/
+        shell: bash
 
       - name: Install all extensions
         shell: cmd
@@ -90,6 +90,8 @@ jobs:
           call hardwario-code/bin/code.cmd --install-extension ms-vscode.cpptools-themes
           call hardwario-code/bin/code.cmd --install-extension twxs.cmake
           call hardwario-code/bin/code.cmd --install-extension HARDWARIO.hardwario-tower
+          del hardwario-code\data\extensions\.init-default-profile-extensions
+          del hardwario-code\data\extensions\extensions.json
 
       - name: Setup env
         shell: bash
@@ -152,20 +154,22 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-          cache: 'pip'
-      - run: pip install gdown
         
-      - name: Download Visual Studio Code and data folder
+      - name: Download and unzip Visual Studio Code
         run: |
-          gdown --folder 1e3RYcO_byAFfxBGk8_H6Mn6VtRCxRSWN
           curl -o Linux/hardwario-code-linux.tar.gz --ssl-no-revoke -LO "https://code.visualstudio.com/sha/download?build=stable&os=linux-x64" 
-                
-      - name: Unzip all downloaded files
-        run: | 
           tar -xvzf Linux/hardwario-code-linux.tar.gz 
           mv VSCode-linux-x64 hardwario-code   
-          tar -xf Linux/data.tar.xz -C hardwario-code/
 
+      - name: Create data folder
+        run: |
+          export SYSTEM=Linux
+          chmod +x createDataFolder.sh
+          ./createDataFolder.sh
+          mv Linux/data hardwario-code/
+                
+      - name: Set permissions and icon
+        run: | 
           chmod o+rwx hardwario-code
           chmod +rwx hardwario-code/code
           chmod 777 -R hardwario-code/data
@@ -184,6 +188,8 @@ jobs:
           ./hardwario-code/bin/code --install-extension ms-vscode.cpptools-themes
           ./hardwario-code/bin/code --install-extension twxs.cmake
           ./hardwario-code/bin/code --install-extension HARDWARIO.hardwario-tower
+          rm -rf ./hardwario-code/data/extensions/.init-default-profile-extensions
+          rm -rf ./hardwario-code/data/extensions/extensions.json
 
       - name: Setup env
         run: |
@@ -216,32 +222,25 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-          cache: 'pip'
-      - run: pip install gdown
-
-      - name: Get latest HARDWARIO Tower VSCode Extension 
-        uses: robinraju/release-downloader@v1.4
-        with:
-          repository: "hardwario/hardwario-tower-vscode-extension"
-          latest: true
-          fileName: "*.vsix"
         
-      - run: mv *.vsix hardwario-tower.vsix
-        
-      - name: Download Visual Studio Code and data folder
+      - name: Download and unzip Visual Studio Code
         run: |
-          gdown --folder 1Lb6Ulpk-yXRd-UpaU8DvYJUFpf_XDkg1 
-          curl -o macOS/hardwario-code-macos.zip --ssl-no-revoke -LO "https://code.visualstudio.com/sha/download?build=stable&os=darwin-universal" 
-                
-      - name: Unzip all downloaded files
-        run: | 
           mkdir hardwario-code
+          curl -o macOS/hardwario-code-macos.zip --ssl-no-revoke -LO "https://code.visualstudio.com/sha/download?build=stable&os=darwin-universal" 
           unzip macOS/hardwario-code-macos.zip
-          unzip macOS/data.zip -d hardwario-code/
+
+      - name: Create data folder
+        run: |
+          chmod +x createDataFolder.sh
+          export SYSTEM=macOS
+          ./createDataFolder.sh
+          mv macOS/code-portable-data hardwario-code/          
+      
+      - name: Setup the final folder
+        run: | 
           xattr -dr com.apple.quarantine Visual\ Studio\ Code.app
           mv Visual\ Studio\ Code.app hardwario-code/Visual\ Studio\ Code.app
           chmod -R 777 hardwario-code/
-          ls hardwario-code
 
       - name: Install all extensions
         run: |
@@ -251,13 +250,14 @@ jobs:
           ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension ms-vscode.cpptools-themes
           ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension twxs.cmake
           ./hardwario-code/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension HARDWARIO.hardwario-tower
+          rm -rf hardwario-code/code-portable-data/.init-default-profile-extensions
+          rm -rf hardwario-code/code-portable-data/extensions.json
 
       - name: Prepare macOS Installer
         run: | 
           git clone https://github.com/SmejkalJakub/hardwario-macos-installer.git
           mv hardwario-code/Visual\ Studio\ Code.app hardwario-macos-installer/macOS-x64/application/Visual\ Studio\ Code.app
           mv hardwario-code/code-portable-data hardwario-macos-installer/macOS-x64/application/code-portable-data
-          ls hardwario-macos-installer/macOS-x64/application/
 
       - name: Setup env
         run: echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
@@ -300,21 +300,15 @@ jobs:
           security find-identity -v
           security find-identity -p codesigning
 
-          find . -perm +111 -type f -or -type l -execdir sudo codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime {} \;
-          find . -name "arm-*" -execdir sudo codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime {} \;
-          find . -name "*.so" -execdir sudo codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime {} \;
-          find . -name "*.dylib" -execdir sudo codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime {} \;
-          find . -name "*.node" -execdir sudo codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime {} \;
-          find . -name "*.o" -execdir sudo codesign --force --verify --timestamp --verbose --sign C32QFQ68V9 --options runtime {} \;
-
           bash sign.sh
 
       - name: Run macOS Installer
         run: | 
           bash hardwario-macos-installer/macOS-x64/build-macos-x64.sh hardwario-code ${{env.TAG}}
           mv hardwario-macos-installer/macOS-x64/target/pkg-signed/hardwario-code-macos-${{env.TAG}}.pkg "${{ github.workspace }}/hio-code-${{env.TAG}}-macos.pkg"
-          xcrun altool --notarize-app --primary-bundle-id "com.hardwario.code" --username "$APP_EMAIL" --password "$APP_SPECIFIC_PASSWORD" --file "${{ github.workspace }}/hio-code-${{env.TAG}}-macos.pkg"
 
+          xcrun notarytool submit "${{ github.workspace }}/hio-code-${{env.TAG}}-macos.pkg" --apple-id "$APP_EMAIL" --password "$APP_SPECIFIC_PASSWORD" --team-id "C32QFQ68V9"
+      
       - name: Publish the extension
         uses: softprops/action-gh-release@v1
         env:
