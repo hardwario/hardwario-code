@@ -31,8 +31,8 @@ jobs:
           echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
           mv hardwario-code-windows/* .
           mv hardwario-code-linux/* .
-          mv hardwario-code-macos-intel/* .
-          mv hardwario-code-macos-apple-silicon/* .
+          mv hardwario-code-macos-x86_64/* .
+          mv hardwario-code-macos-arm64/* .
 
       - name: Upload to gdrive Windows
         uses: adityak74/google-drive-upload-git-action@main
@@ -48,18 +48,18 @@ jobs:
           filename: "hio-code-${{env.TAG}}-linux.tar.gz"
           folderId: ${{ secrets.folderId }}
 
-      - name: Upload to gdrive macOS Intel
+      - name: Upload to gdrive macOS x86_64
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.credentials }}
-          filename: "hio-code-${{env.TAG}}-macos-intel.pkg"
+          filename: "hio-code-${{env.TAG}}-macos-x86_64.pkg"
           folderId: ${{ secrets.folderId }}
 
       - name: Upload to gdrive macOS Apple Silicon
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.credentials }}
-          filename: "hio-code-${{env.TAG}}-macos-apple-silicon.pkg"
+          filename: "hio-code-${{env.TAG}}-macos-arm64.pkg"
           folderId: ${{ secrets.folderId }}
        
   windows-export:
@@ -222,7 +222,7 @@ jobs:
           path: hio-code-${{env.TAG}}-linux.tar.gz
 
   macos-export:
-    name: Export HARDWARIO Code macOS Intel
+    name: Export HARDWARIO Code macOS x86_64
     runs-on: macos-latest
 
     steps:
@@ -313,25 +313,25 @@ jobs:
       - name: Run macOS Installer
         run: | 
           bash hardwario-macos-installer/macOS-x64/build-macos-x64.sh hardwario-code ${{env.TAG}}
-          mv hardwario-macos-installer/macOS-x64/target/pkg-signed/hardwario-code-macos-${{env.TAG}}.pkg "${{ github.workspace }}/hio-code-${{env.TAG}}-macos-intel.pkg"
+          mv hardwario-macos-installer/macOS-x64/target/pkg-signed/hardwario-code-macos-${{env.TAG}}.pkg "${{ github.workspace }}/hio-code-${{env.TAG}}-macos-x86_64.pkg"
 
-          xcrun notarytool submit "${{ github.workspace }}/hio-code-${{env.TAG}}-macos-intel.pkg" --apple-id "$APP_EMAIL" --password "$APP_SPECIFIC_PASSWORD" --team-id "C32QFQ68V9"
+          xcrun notarytool submit "${{ github.workspace }}/hio-code-${{env.TAG}}-macos-x86_64.pkg" --apple-id "$APP_EMAIL" --password "$APP_SPECIFIC_PASSWORD" --team-id "C32QFQ68V9"
       
       - name: Publish the extension
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          files: hio-code-${{env.TAG}}-macos-intel.pkg
+          files: hio-code-${{env.TAG}}-macos-x86_64.pkg
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: hardwario-code-macos-intel
-          path: hio-code-${{env.TAG}}-macos-intel.pkg
+          name: hardwario-code-macos-x86_64
+          path: hio-code-${{env.TAG}}-macos-x86_64.pkg
 
-  macos-apple-silicon-export:
-    name: Export HARDWARIO Code macOS Apple Silicon
+  macos-arm64-export:
+    name: Export HARDWARIO Code macOS arm64
     runs-on: macos-latest
 
     steps:
@@ -355,9 +355,9 @@ jobs:
       - name: Create data folder
         run: |
           chmod +x createDataFolder.sh
-          export SYSTEM=macOS-apple-silicon
+          export SYSTEM=macOS-arm64
           ./createDataFolder.sh
-          mv macOS-apple-silicon/code-portable-data hardwario-code/          
+          mv macOS-arm64/code-portable-data hardwario-code/          
       
       - name: Setup the final folder
         run: | 
@@ -428,19 +428,19 @@ jobs:
       - name: Run macOS Installer
         run: | 
           bash hardwario-macos-installer/macOS-x64/build-macos-x64.sh hardwario-code ${{env.TAG}}
-          mv hardwario-macos-installer/macOS-x64/target/pkg-signed/hardwario-code-macos-${{env.TAG}}.pkg "${{ github.workspace }}/hio-code-${{env.TAG}}-macos-apple-silicon.pkg"
+          mv hardwario-macos-installer/macOS-x64/target/pkg-signed/hardwario-code-macos-${{env.TAG}}.pkg "${{ github.workspace }}/hio-code-${{env.TAG}}-macos-arm64.pkg"
 
-          xcrun notarytool submit "${{ github.workspace }}/hio-code-${{env.TAG}}-macos-apple-silicon.pkg" --apple-id "$APP_EMAIL" --password "$APP_SPECIFIC_PASSWORD" --team-id "C32QFQ68V9"
+          xcrun notarytool submit "${{ github.workspace }}/hio-code-${{env.TAG}}-macos-arm64.pkg" --apple-id "$APP_EMAIL" --password "$APP_SPECIFIC_PASSWORD" --team-id "C32QFQ68V9"
       
       - name: Publish the extension
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          files: hio-code-${{env.TAG}}-macos-apple-silicon.pkg
+          files: hio-code-${{env.TAG}}-macos-arm64.pkg
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: hardwario-code-macos-apple-silicon
-          path: hio-code-${{env.TAG}}-macos-apple-silicon.pkg
+          name: hardwario-code-macos-arm64
+          path: hio-code-${{env.TAG}}-macos-arm64.pkg
