@@ -19,7 +19,7 @@ env:
 jobs:
   gdrive-upload:
     name: Upload all exports to Google Drive
-    needs: [windows-export, linux-export, macos-export]
+    needs: [windows-export, linux-export, macos-export, macos-arm64-export]
     runs-on: ubuntu-latest
 
     steps:
