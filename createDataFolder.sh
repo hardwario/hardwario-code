@@ -104,7 +104,7 @@ then
     rm -rf ${SYSTEM}/code-portable-data/tower/toolchain/.gitignore
 fi
 
-if [ "$SYSTEM" == "macOS-apple-silicon" ]
+if [ "$SYSTEM" == "macOS-arm64" ]
 then
     JLINK_LINK="https://www.segger.com/downloads/jlink/JLink_Linux_x86_64.tgz"
     CMAKE_LINK="https://github.com/Kitware/CMake/releases/download/v3.25.2/cmake-3.25.2-macos-universal.tar.gz"
