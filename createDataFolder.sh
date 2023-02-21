@@ -103,3 +103,38 @@ then
     rm -rf ${SYSTEM}/code-portable-data/tower/toolchain/*.pkg
     rm -rf ${SYSTEM}/code-portable-data/tower/toolchain/.gitignore
 fi
+
+if [ "$SYSTEM" == "macOS-apple-silicon" ]
+then
+    JLINK_LINK="https://www.segger.com/downloads/jlink/JLink_Linux_x86_64.tgz"
+    CMAKE_LINK="https://github.com/Kitware/CMake/releases/download/v3.25.2/cmake-3.25.2-macos-universal.tar.gz"
+    GCC_LINK="https://developer.arm.com/-/media/Files/downloads/gnu/12.2.rel1/binrel/arm-gnu-toolchain-12.2.rel1-darwin-arm64-arm-none-eabi.tar.xz"
+    NINJA_LINK="https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-mac.zip"
+
+    curl -X POST -d "accept_license_agreement=accepted&non_emb_ctr=confirmed&submit=Download+software" -o ${SYSTEM}/code-portable-data/tower/toolchain/jlink.pkg --ssl-no-revoke -LO "https://www.segger.com/downloads/jlink/JLink_MacOSX_universal.pkg"
+    pkgutil --expand-full ${SYSTEM}/code-portable-data/tower/toolchain/jlink.pkg ${SYSTEM}/code-portable-data/tower/toolchain/SEGGER/
+    mv ${SYSTEM}/code-portable-data/tower/toolchain/SEGGER/JLink.pkg/Payload/Applications/SEGGER/JLink_* ${SYSTEM}/code-portable-data/tower/toolchain/SEGGER/JLink
+
+    curl -o ${SYSTEM}/code-portable-data/tower/toolchain/cmake.tar.gz --ssl-no-revoke -LO ${CMAKE_LINK}
+    tar -xvzf ${SYSTEM}/code-portable-data/tower/toolchain/cmake.tar.gz -C ${SYSTEM}/code-portable-data/tower/toolchain/
+
+    curl -o ${SYSTEM}/code-portable-data/tower/toolchain/gcc.tar.xz --ssl-no-revoke -LO ${GCC_LINK}
+    tar -xf ${SYSTEM}/code-portable-data/tower/toolchain/gcc.tar.xz -C ${SYSTEM}/code-portable-data/tower/toolchain/
+
+    mkdir ${SYSTEM}/code-portable-data/tower/toolchain/ninja
+    curl -o ${SYSTEM}/code-portable-data/tower/toolchain/ninja.zip --ssl-no-revoke -LO ${NINJA_LINK}
+    unzip ${SYSTEM}/code-portable-data/tower/toolchain/ninja.zip -d ${SYSTEM}/code-portable-data/tower/toolchain/ninja
+
+    mv ${SYSTEM}/code-portable-data/tower/toolchain/cmake-* ${SYSTEM}/code-portable-data/tower/toolchain/cmake
+    mv ${SYSTEM}/code-portable-data/tower/toolchain/arm-* ${SYSTEM}/code-portable-data/tower/toolchain/gcc
+    rm -rf ${SYSTEM}/code-portable-data/tower/toolchain/SEGGER/JLink.pkg
+    rm -rf ${SYSTEM}/code-portable-data/tower/toolchain/SEGGER/Resources
+    rm -rf ${SYSTEM}/code-portable-data/tower/toolchain/SEGGER/Distribution
+
+    rm -rf ${SYSTEM}/code-portable-data/tower/toolchain/*.zip
+    rm -rf ${SYSTEM}/code-portable-data/tower/toolchain/*.tar.xz
+    rm -rf ${SYSTEM}/code-portable-data/tower/toolchain/*.tar.gz
+    rm -rf ${SYSTEM}/code-portable-data/tower/toolchain/*.tgz
+    rm -rf ${SYSTEM}/code-portable-data/tower/toolchain/*.pkg
+    rm -rf ${SYSTEM}/code-portable-data/tower/toolchain/.gitignore
+fi
